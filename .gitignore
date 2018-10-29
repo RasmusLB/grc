@@ -1,1 +1,6 @@
 # List of ignored files
+
+*.so
+*.o
+*.rtl
+*.log
