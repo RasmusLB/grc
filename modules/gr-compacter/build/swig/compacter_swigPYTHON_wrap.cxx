@@ -4658,29 +4658,6 @@ SWIG_AsVal_bool (PyObject *obj, bool *val)
 }
 
 
-SWIGINTERNINLINE PyObject*
-  SWIG_From_unsigned_SS_int  (unsigned int value)
-{
-  return PyInt_FromSize_t((size_t) value);
-}
-
-
-SWIGINTERN int
-SWIG_AsVal_int (PyObject * obj, int *val)
-{
-  long v;
-  int res = SWIG_AsVal_long (obj, &v);
-  if (SWIG_IsOK(res)) {
-    if ((v < INT_MIN || v > INT_MAX)) {
-      return SWIG_OverflowError;
-    } else {
-      if (val) *val = static_cast< int >(v);
-    }
-  }  
-  return res;
-}
-
-
 SWIGINTERN int
 SWIG_AsVal_unsigned_SS_long (PyObject *obj, unsigned long *val) 
 {
@@ -4729,6 +4706,57 @@ SWIG_AsVal_unsigned_SS_long (PyObject *obj, unsigned long *val)
 }
 
 
+#ifdef SWIG_LONG_LONG_AVAILABLE
+SWIGINTERN int
+SWIG_AsVal_unsigned_SS_long_SS_long (PyObject *obj, unsigned long long *val)
+{
+  int res = SWIG_TypeError;
+  if (PyLong_Check(obj)) {
+    unsigned long long v = PyLong_AsUnsignedLongLong(obj);
+    if (!PyErr_Occurred()) {
+      if (val) *val = v;
+      return SWIG_OK;
+    } else {
+      PyErr_Clear();
+      res = SWIG_OverflowError;
+    }
+  } else {
+    unsigned long v;
+    res = SWIG_AsVal_unsigned_SS_long (obj,&v);
+    if (SWIG_IsOK(res)) {
+      if (val) *val = v;
+      return res;
+    }
+  }
+#ifdef SWIG_PYTHON_CAST_MODE
+  {
+    const double mant_max = 1LL << DBL_MANT_DIG;
+    double d;
+    res = SWIG_AsVal_double (obj,&d);
+    if (SWIG_IsOK(res) && !SWIG_CanCastAsInteger(&d, 0, mant_max))
+      return SWIG_OverflowError;
+    if (SWIG_IsOK(res) && SWIG_CanCastAsInteger(&d, 0, mant_max)) {
+      if (val) *val = (unsigned long long)(d);
+      return SWIG_AddCast(res);
+    }
+    res = SWIG_TypeError;
+  }
+#endif
+  return res;
+}
+#endif
+
+
+#ifdef SWIG_LONG_LONG_AVAILABLE
+SWIGINTERNINLINE PyObject* 
+SWIG_From_unsigned_SS_long_SS_long  (unsigned long long value)
+{
+  return (value > LONG_MAX) ?
+    PyLong_FromUnsignedLongLong(value) : PyInt_FromLong(static_cast< long >(value));
+}
+#endif
+
+
 SWIGINTERN int
 SWIG_AsVal_unsigned_SS_int (PyObject * obj, unsigned int *val)
 {
@@ -4746,39 +4774,9 @@ SWIG_AsVal_unsigned_SS_int (PyObject * obj, unsigned int *val)
 
 
 SWIGINTERNINLINE PyObject*
-  SWIG_From_int  (int value)
+  SWIG_From_unsigned_SS_int  (unsigned int value)
 {
-  return PyInt_FromLong((long) value);
-}
-
-
-  #define SWIG_From_double   PyFloat_FromDouble 
-
-
-SWIGINTERNINLINE PyObject*
-  SWIG_From_bool  (bool value)
-{
-  return PyBool_FromLong(value ? 1 : 0);
-}
-
-
-#ifdef SWIG_LONG_LONG_AVAILABLE
-SWIGINTERNINLINE PyObject* 
-SWIG_From_unsigned_SS_long_SS_long  (unsigned long long value)
-{
-  return (value > LONG_MAX) ?
-    PyLong_FromUnsignedLongLong(value) : PyInt_FromLong(static_cast< long >(value));
-}
-#endif
-
-
-  #define SWIG_From_long   PyInt_FromLong 
-
-
-SWIGINTERNINLINE PyObject *
-SWIG_From_float  (float value)
-{    
-  return SWIG_From_double  (value);
+  return PyInt_FromSize_t((size_t) value);
 }
 
 
@@ -4834,6 +4832,49 @@ SWIG_AsVal_float (PyObject * obj, float *val)
   }  
   return res;
 }
+
+
+  #define SWIG_From_double   PyFloat_FromDouble 
+
+
+SWIGINTERNINLINE PyObject *
+SWIG_From_float  (float value)
+{    
+  return SWIG_From_double  (value);
+}
+
+
+SWIGINTERN int
+SWIG_AsVal_int (PyObject * obj, int *val)
+{
+  long v;
+  int res = SWIG_AsVal_long (obj, &v);
+  if (SWIG_IsOK(res)) {
+    if ((v < INT_MIN || v > INT_MAX)) {
+      return SWIG_OverflowError;
+    } else {
+      if (val) *val = static_cast< int >(v);
+    }
+  }  
+  return res;
+}
+
+
+SWIGINTERNINLINE PyObject*
+  SWIG_From_int  (int value)
+{
+  return PyInt_FromLong((long) value);
+}
+
+
+SWIGINTERNINLINE PyObject*
+  SWIG_From_bool  (bool value)
+{
+  return PyBool_FromLong(value ? 1 : 0);
+}
+
+
+  #define SWIG_From_long   PyInt_FromLong 
 
 
 namespace swig {
@@ -5215,6 +5256,314 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_compact_file_sink_set_sample_rate(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  gr::compacter::compact_file_sink *arg1 = (gr::compacter::compact_file_sink *) 0 ;
+  uint64_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned long long val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "sample_rate", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:compact_file_sink_set_sample_rate",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gr__compacter__compact_file_sink, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_set_sample_rate" "', argument " "1"" of type '" "gr::compacter::compact_file_sink *""'"); 
+  }
+  arg1 = reinterpret_cast< gr::compacter::compact_file_sink * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_long_SS_long(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "compact_file_sink_set_sample_rate" "', argument " "2"" of type '" "uint64_t""'");
+  } 
+  arg2 = static_cast< uint64_t >(val2);
+  {
+    try {
+      (arg1)->set_sample_rate(arg2);
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_compact_file_sink_sample_rate(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  gr::compacter::compact_file_sink *arg1 = (gr::compacter::compact_file_sink *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  uint64_t result;
+  
+  if(!PyArg_UnpackTuple(args,(char *)"compact_file_sink_sample_rate",1,1,&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gr__compacter__compact_file_sink, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_sample_rate" "', argument " "1"" of type '" "gr::compacter::compact_file_sink *""'"); 
+  }
+  arg1 = reinterpret_cast< gr::compacter::compact_file_sink * >(argp1);
+  {
+    try {
+      result = (uint64_t)(arg1)->sample_rate();
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_From_unsigned_SS_long_SS_long(static_cast< unsigned long long >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_compact_file_sink_set_fft_size(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  gr::compacter::compact_file_sink *arg1 = (gr::compacter::compact_file_sink *) 0 ;
+  uint32_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "fft_size", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:compact_file_sink_set_fft_size",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gr__compacter__compact_file_sink, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_set_fft_size" "', argument " "1"" of type '" "gr::compacter::compact_file_sink *""'"); 
+  }
+  arg1 = reinterpret_cast< gr::compacter::compact_file_sink * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "compact_file_sink_set_fft_size" "', argument " "2"" of type '" "uint32_t""'");
+  } 
+  arg2 = static_cast< uint32_t >(val2);
+  {
+    try {
+      (arg1)->set_fft_size(arg2);
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_compact_file_sink_fft_size(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  gr::compacter::compact_file_sink *arg1 = (gr::compacter::compact_file_sink *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  uint32_t result;
+  
+  if(!PyArg_UnpackTuple(args,(char *)"compact_file_sink_fft_size",1,1,&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gr__compacter__compact_file_sink, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_fft_size" "', argument " "1"" of type '" "gr::compacter::compact_file_sink *""'"); 
+  }
+  arg1 = reinterpret_cast< gr::compacter::compact_file_sink * >(argp1);
+  {
+    try {
+      result = (uint32_t)(arg1)->fft_size();
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_From_unsigned_SS_int(static_cast< unsigned int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_compact_file_sink_set_center_freq(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  gr::compacter::compact_file_sink *arg1 = (gr::compacter::compact_file_sink *) 0 ;
+  uint64_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned long long val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "center_freq", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:compact_file_sink_set_center_freq",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gr__compacter__compact_file_sink, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_set_center_freq" "', argument " "1"" of type '" "gr::compacter::compact_file_sink *""'"); 
+  }
+  arg1 = reinterpret_cast< gr::compacter::compact_file_sink * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_long_SS_long(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "compact_file_sink_set_center_freq" "', argument " "2"" of type '" "uint64_t""'");
+  } 
+  arg2 = static_cast< uint64_t >(val2);
+  {
+    try {
+      (arg1)->set_center_freq(arg2);
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_compact_file_sink_center_freq(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  gr::compacter::compact_file_sink *arg1 = (gr::compacter::compact_file_sink *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  uint64_t result;
+  
+  if(!PyArg_UnpackTuple(args,(char *)"compact_file_sink_center_freq",1,1,&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gr__compacter__compact_file_sink, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_center_freq" "', argument " "1"" of type '" "gr::compacter::compact_file_sink *""'"); 
+  }
+  arg1 = reinterpret_cast< gr::compacter::compact_file_sink * >(argp1);
+  {
+    try {
+      result = (uint64_t)(arg1)->center_freq();
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_From_unsigned_SS_long_SS_long(static_cast< unsigned long long >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_compact_file_sink_set_compact_threshold(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  gr::compacter::compact_file_sink *arg1 = (gr::compacter::compact_file_sink *) 0 ;
+  float arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "compact_threshold", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:compact_file_sink_set_compact_threshold",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gr__compacter__compact_file_sink, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_set_compact_threshold" "', argument " "1"" of type '" "gr::compacter::compact_file_sink *""'"); 
+  }
+  arg1 = reinterpret_cast< gr::compacter::compact_file_sink * >(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "compact_file_sink_set_compact_threshold" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  {
+    try {
+      (arg1)->set_compact_threshold(arg2);
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_compact_file_sink_compact_threshold(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  gr::compacter::compact_file_sink *arg1 = (gr::compacter::compact_file_sink *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float result;
+  
+  if(!PyArg_UnpackTuple(args,(char *)"compact_file_sink_compact_threshold",1,1,&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gr__compacter__compact_file_sink, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_compact_threshold" "', argument " "1"" of type '" "gr::compacter::compact_file_sink *""'"); 
+  }
+  arg1 = reinterpret_cast< gr::compacter::compact_file_sink * >(argp1);
+  {
+    try {
+      result = (float)(arg1)->compact_threshold();
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_delete_compact_file_sink(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   gr::compacter::compact_file_sink *arg1 = (gr::compacter::compact_file_sink *) 0 ;
@@ -5465,6 +5814,314 @@ SWIGINTERN PyObject *_wrap_compact_file_sink_sptr_make(PyObject *SWIGUNUSEDPARM(
   return resultobj;
 fail:
   if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_compact_file_sink_sptr_set_sample_rate(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  boost::shared_ptr< gr::compacter::compact_file_sink > *arg1 = (boost::shared_ptr< gr::compacter::compact_file_sink > *) 0 ;
+  uint64_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned long long val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "sample_rate", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:compact_file_sink_sptr_set_sample_rate",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_boost__shared_ptrT_gr__compacter__compact_file_sink_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_sptr_set_sample_rate" "', argument " "1"" of type '" "boost::shared_ptr< gr::compacter::compact_file_sink > *""'"); 
+  }
+  arg1 = reinterpret_cast< boost::shared_ptr< gr::compacter::compact_file_sink > * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_long_SS_long(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "compact_file_sink_sptr_set_sample_rate" "', argument " "2"" of type '" "uint64_t""'");
+  } 
+  arg2 = static_cast< uint64_t >(val2);
+  {
+    try {
+      (*arg1)->set_sample_rate(arg2);
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_compact_file_sink_sptr_sample_rate(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  boost::shared_ptr< gr::compacter::compact_file_sink > *arg1 = (boost::shared_ptr< gr::compacter::compact_file_sink > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  uint64_t result;
+  
+  if(!PyArg_UnpackTuple(args,(char *)"compact_file_sink_sptr_sample_rate",1,1,&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_boost__shared_ptrT_gr__compacter__compact_file_sink_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_sptr_sample_rate" "', argument " "1"" of type '" "boost::shared_ptr< gr::compacter::compact_file_sink > *""'"); 
+  }
+  arg1 = reinterpret_cast< boost::shared_ptr< gr::compacter::compact_file_sink > * >(argp1);
+  {
+    try {
+      result = (uint64_t)(*arg1)->sample_rate();
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_From_unsigned_SS_long_SS_long(static_cast< unsigned long long >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_compact_file_sink_sptr_set_fft_size(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  boost::shared_ptr< gr::compacter::compact_file_sink > *arg1 = (boost::shared_ptr< gr::compacter::compact_file_sink > *) 0 ;
+  uint32_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "fft_size", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:compact_file_sink_sptr_set_fft_size",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_boost__shared_ptrT_gr__compacter__compact_file_sink_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_sptr_set_fft_size" "', argument " "1"" of type '" "boost::shared_ptr< gr::compacter::compact_file_sink > *""'"); 
+  }
+  arg1 = reinterpret_cast< boost::shared_ptr< gr::compacter::compact_file_sink > * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "compact_file_sink_sptr_set_fft_size" "', argument " "2"" of type '" "uint32_t""'");
+  } 
+  arg2 = static_cast< uint32_t >(val2);
+  {
+    try {
+      (*arg1)->set_fft_size(arg2);
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_compact_file_sink_sptr_fft_size(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  boost::shared_ptr< gr::compacter::compact_file_sink > *arg1 = (boost::shared_ptr< gr::compacter::compact_file_sink > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  uint32_t result;
+  
+  if(!PyArg_UnpackTuple(args,(char *)"compact_file_sink_sptr_fft_size",1,1,&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_boost__shared_ptrT_gr__compacter__compact_file_sink_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_sptr_fft_size" "', argument " "1"" of type '" "boost::shared_ptr< gr::compacter::compact_file_sink > *""'"); 
+  }
+  arg1 = reinterpret_cast< boost::shared_ptr< gr::compacter::compact_file_sink > * >(argp1);
+  {
+    try {
+      result = (uint32_t)(*arg1)->fft_size();
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_From_unsigned_SS_int(static_cast< unsigned int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_compact_file_sink_sptr_set_center_freq(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  boost::shared_ptr< gr::compacter::compact_file_sink > *arg1 = (boost::shared_ptr< gr::compacter::compact_file_sink > *) 0 ;
+  uint64_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned long long val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "center_freq", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:compact_file_sink_sptr_set_center_freq",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_boost__shared_ptrT_gr__compacter__compact_file_sink_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_sptr_set_center_freq" "', argument " "1"" of type '" "boost::shared_ptr< gr::compacter::compact_file_sink > *""'"); 
+  }
+  arg1 = reinterpret_cast< boost::shared_ptr< gr::compacter::compact_file_sink > * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_long_SS_long(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "compact_file_sink_sptr_set_center_freq" "', argument " "2"" of type '" "uint64_t""'");
+  } 
+  arg2 = static_cast< uint64_t >(val2);
+  {
+    try {
+      (*arg1)->set_center_freq(arg2);
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_compact_file_sink_sptr_center_freq(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  boost::shared_ptr< gr::compacter::compact_file_sink > *arg1 = (boost::shared_ptr< gr::compacter::compact_file_sink > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  uint64_t result;
+  
+  if(!PyArg_UnpackTuple(args,(char *)"compact_file_sink_sptr_center_freq",1,1,&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_boost__shared_ptrT_gr__compacter__compact_file_sink_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_sptr_center_freq" "', argument " "1"" of type '" "boost::shared_ptr< gr::compacter::compact_file_sink > *""'"); 
+  }
+  arg1 = reinterpret_cast< boost::shared_ptr< gr::compacter::compact_file_sink > * >(argp1);
+  {
+    try {
+      result = (uint64_t)(*arg1)->center_freq();
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_From_unsigned_SS_long_SS_long(static_cast< unsigned long long >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_compact_file_sink_sptr_set_compact_threshold(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  boost::shared_ptr< gr::compacter::compact_file_sink > *arg1 = (boost::shared_ptr< gr::compacter::compact_file_sink > *) 0 ;
+  float arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "compact_threshold", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:compact_file_sink_sptr_set_compact_threshold",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_boost__shared_ptrT_gr__compacter__compact_file_sink_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_sptr_set_compact_threshold" "', argument " "1"" of type '" "boost::shared_ptr< gr::compacter::compact_file_sink > *""'"); 
+  }
+  arg1 = reinterpret_cast< boost::shared_ptr< gr::compacter::compact_file_sink > * >(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "compact_file_sink_sptr_set_compact_threshold" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  {
+    try {
+      (*arg1)->set_compact_threshold(arg2);
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_compact_file_sink_sptr_compact_threshold(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  boost::shared_ptr< gr::compacter::compact_file_sink > *arg1 = (boost::shared_ptr< gr::compacter::compact_file_sink > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  float result;
+  
+  if(!PyArg_UnpackTuple(args,(char *)"compact_file_sink_sptr_compact_threshold",1,1,&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_boost__shared_ptrT_gr__compacter__compact_file_sink_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_sptr_compact_threshold" "', argument " "1"" of type '" "boost::shared_ptr< gr::compacter::compact_file_sink > *""'"); 
+  }
+  arg1 = reinterpret_cast< boost::shared_ptr< gr::compacter::compact_file_sink > * >(argp1);
+  {
+    try {
+      result = (float)(*arg1)->compact_threshold();
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
   return NULL;
 }
 
@@ -8374,6 +9031,14 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"high_res_timer_tps", _wrap_high_res_timer_tps, METH_VARARGS, (char *)"high_res_timer_tps() -> gr::high_res_timer_type"},
 	 { (char *)"high_res_timer_epoch", _wrap_high_res_timer_epoch, METH_VARARGS, (char *)"high_res_timer_epoch() -> gr::high_res_timer_type"},
 	 { (char *)"compact_file_sink_make", (PyCFunction) _wrap_compact_file_sink_make, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_make(char const * filename, bool append=False) -> compact_file_sink_sptr"},
+	 { (char *)"compact_file_sink_set_sample_rate", (PyCFunction) _wrap_compact_file_sink_set_sample_rate, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_set_sample_rate(compact_file_sink self, uint64_t sample_rate)"},
+	 { (char *)"compact_file_sink_sample_rate", _wrap_compact_file_sink_sample_rate, METH_VARARGS, (char *)"compact_file_sink_sample_rate(compact_file_sink self) -> uint64_t"},
+	 { (char *)"compact_file_sink_set_fft_size", (PyCFunction) _wrap_compact_file_sink_set_fft_size, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_set_fft_size(compact_file_sink self, uint32_t fft_size)"},
+	 { (char *)"compact_file_sink_fft_size", _wrap_compact_file_sink_fft_size, METH_VARARGS, (char *)"compact_file_sink_fft_size(compact_file_sink self) -> uint32_t"},
+	 { (char *)"compact_file_sink_set_center_freq", (PyCFunction) _wrap_compact_file_sink_set_center_freq, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_set_center_freq(compact_file_sink self, uint64_t center_freq)"},
+	 { (char *)"compact_file_sink_center_freq", _wrap_compact_file_sink_center_freq, METH_VARARGS, (char *)"compact_file_sink_center_freq(compact_file_sink self) -> uint64_t"},
+	 { (char *)"compact_file_sink_set_compact_threshold", (PyCFunction) _wrap_compact_file_sink_set_compact_threshold, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_set_compact_threshold(compact_file_sink self, float compact_threshold)"},
+	 { (char *)"compact_file_sink_compact_threshold", _wrap_compact_file_sink_compact_threshold, METH_VARARGS, (char *)"compact_file_sink_compact_threshold(compact_file_sink self) -> float"},
 	 { (char *)"delete_compact_file_sink", _wrap_delete_compact_file_sink, METH_VARARGS, (char *)"delete_compact_file_sink(compact_file_sink self)"},
 	 { (char *)"compact_file_sink_swigregister", compact_file_sink_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_compact_file_sink_sptr", _wrap_new_compact_file_sink_sptr, METH_VARARGS, (char *)"\n"
@@ -8383,6 +9048,14 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"compact_file_sink_sptr___deref__", _wrap_compact_file_sink_sptr___deref__, METH_VARARGS, (char *)"compact_file_sink_sptr___deref__(compact_file_sink_sptr self) -> compact_file_sink"},
 	 { (char *)"delete_compact_file_sink_sptr", _wrap_delete_compact_file_sink_sptr, METH_VARARGS, (char *)"delete_compact_file_sink_sptr(compact_file_sink_sptr self)"},
 	 { (char *)"compact_file_sink_sptr_make", (PyCFunction) _wrap_compact_file_sink_sptr_make, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_make(compact_file_sink_sptr self, char const * filename, bool append=False) -> compact_file_sink_sptr"},
+	 { (char *)"compact_file_sink_sptr_set_sample_rate", (PyCFunction) _wrap_compact_file_sink_sptr_set_sample_rate, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_set_sample_rate(compact_file_sink_sptr self, uint64_t sample_rate)"},
+	 { (char *)"compact_file_sink_sptr_sample_rate", _wrap_compact_file_sink_sptr_sample_rate, METH_VARARGS, (char *)"compact_file_sink_sptr_sample_rate(compact_file_sink_sptr self) -> uint64_t"},
+	 { (char *)"compact_file_sink_sptr_set_fft_size", (PyCFunction) _wrap_compact_file_sink_sptr_set_fft_size, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_set_fft_size(compact_file_sink_sptr self, uint32_t fft_size)"},
+	 { (char *)"compact_file_sink_sptr_fft_size", _wrap_compact_file_sink_sptr_fft_size, METH_VARARGS, (char *)"compact_file_sink_sptr_fft_size(compact_file_sink_sptr self) -> uint32_t"},
+	 { (char *)"compact_file_sink_sptr_set_center_freq", (PyCFunction) _wrap_compact_file_sink_sptr_set_center_freq, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_set_center_freq(compact_file_sink_sptr self, uint64_t center_freq)"},
+	 { (char *)"compact_file_sink_sptr_center_freq", _wrap_compact_file_sink_sptr_center_freq, METH_VARARGS, (char *)"compact_file_sink_sptr_center_freq(compact_file_sink_sptr self) -> uint64_t"},
+	 { (char *)"compact_file_sink_sptr_set_compact_threshold", (PyCFunction) _wrap_compact_file_sink_sptr_set_compact_threshold, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_set_compact_threshold(compact_file_sink_sptr self, float compact_threshold)"},
+	 { (char *)"compact_file_sink_sptr_compact_threshold", _wrap_compact_file_sink_sptr_compact_threshold, METH_VARARGS, (char *)"compact_file_sink_sptr_compact_threshold(compact_file_sink_sptr self) -> float"},
 	 { (char *)"compact_file_sink_sptr_history", _wrap_compact_file_sink_sptr_history, METH_VARARGS, (char *)"compact_file_sink_sptr_history(compact_file_sink_sptr self) -> unsigned int"},
 	 { (char *)"compact_file_sink_sptr_declare_sample_delay", _wrap_compact_file_sink_sptr_declare_sample_delay, METH_VARARGS, (char *)"\n"
 		"declare_sample_delay(int which, int delay)\n"

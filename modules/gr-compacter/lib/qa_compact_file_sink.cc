@@ -30,7 +30,9 @@ namespace gr {
     void
     qa_compact_file_sink::t1()
     {
+      
       // Put test here
+      std::cout << "CPP TEST RUNNING" << std::endl;
     }
 
   } /* namespace compacter */

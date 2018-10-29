@@ -118,7 +118,7 @@ class compact_file_sink(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
 
     def __init__(self, *args, **kwargs):
-        raise AttributeError("No constructor defined")
+        raise AttributeError("No constructor defined - class is abstract")
     __repr__ = _swig_repr
 
     def make(filename, append=False):
@@ -126,6 +126,46 @@ class compact_file_sink(object):
         return _compacter_swig.compact_file_sink_make(filename, append)
 
     make = staticmethod(make)
+
+    def set_sample_rate(self, sample_rate):
+        """set_sample_rate(compact_file_sink self, uint64_t sample_rate)"""
+        return _compacter_swig.compact_file_sink_set_sample_rate(self, sample_rate)
+
+
+    def sample_rate(self):
+        """sample_rate(compact_file_sink self) -> uint64_t"""
+        return _compacter_swig.compact_file_sink_sample_rate(self)
+
+
+    def set_fft_size(self, fft_size):
+        """set_fft_size(compact_file_sink self, uint32_t fft_size)"""
+        return _compacter_swig.compact_file_sink_set_fft_size(self, fft_size)
+
+
+    def fft_size(self):
+        """fft_size(compact_file_sink self) -> uint32_t"""
+        return _compacter_swig.compact_file_sink_fft_size(self)
+
+
+    def set_center_freq(self, center_freq):
+        """set_center_freq(compact_file_sink self, uint64_t center_freq)"""
+        return _compacter_swig.compact_file_sink_set_center_freq(self, center_freq)
+
+
+    def center_freq(self):
+        """center_freq(compact_file_sink self) -> uint64_t"""
+        return _compacter_swig.compact_file_sink_center_freq(self)
+
+
+    def set_compact_threshold(self, compact_threshold):
+        """set_compact_threshold(compact_file_sink self, float compact_threshold)"""
+        return _compacter_swig.compact_file_sink_set_compact_threshold(self, compact_threshold)
+
+
+    def compact_threshold(self):
+        """compact_threshold(compact_file_sink self) -> float"""
+        return _compacter_swig.compact_file_sink_compact_threshold(self)
+
     __swig_destroy__ = _compacter_swig.delete_compact_file_sink
     __del__ = lambda self: None
 compact_file_sink_swigregister = _compacter_swig.compact_file_sink_swigregister
@@ -162,6 +202,46 @@ class compact_file_sink_sptr(object):
     def make(self, filename, append=False):
         """make(compact_file_sink_sptr self, char const * filename, bool append=False) -> compact_file_sink_sptr"""
         return _compacter_swig.compact_file_sink_sptr_make(self, filename, append)
+
+
+    def set_sample_rate(self, sample_rate):
+        """set_sample_rate(compact_file_sink_sptr self, uint64_t sample_rate)"""
+        return _compacter_swig.compact_file_sink_sptr_set_sample_rate(self, sample_rate)
+
+
+    def sample_rate(self):
+        """sample_rate(compact_file_sink_sptr self) -> uint64_t"""
+        return _compacter_swig.compact_file_sink_sptr_sample_rate(self)
+
+
+    def set_fft_size(self, fft_size):
+        """set_fft_size(compact_file_sink_sptr self, uint32_t fft_size)"""
+        return _compacter_swig.compact_file_sink_sptr_set_fft_size(self, fft_size)
+
+
+    def fft_size(self):
+        """fft_size(compact_file_sink_sptr self) -> uint32_t"""
+        return _compacter_swig.compact_file_sink_sptr_fft_size(self)
+
+
+    def set_center_freq(self, center_freq):
+        """set_center_freq(compact_file_sink_sptr self, uint64_t center_freq)"""
+        return _compacter_swig.compact_file_sink_sptr_set_center_freq(self, center_freq)
+
+
+    def center_freq(self):
+        """center_freq(compact_file_sink_sptr self) -> uint64_t"""
+        return _compacter_swig.compact_file_sink_sptr_center_freq(self)
+
+
+    def set_compact_threshold(self, compact_threshold):
+        """set_compact_threshold(compact_file_sink_sptr self, float compact_threshold)"""
+        return _compacter_swig.compact_file_sink_sptr_set_compact_threshold(self, compact_threshold)
+
+
+    def compact_threshold(self):
+        """compact_threshold(compact_file_sink_sptr self) -> float"""
+        return _compacter_swig.compact_file_sink_sptr_compact_threshold(self)
 
 
     def history(self):

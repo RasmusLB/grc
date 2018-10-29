@@ -1,43 +1,101 @@
-Start testing: Oct 29 11:11 CET
+Start testing: Oct 29 17:43 CET
 ----------------------------------------------------------
 2/2 Testing: qa_compact_file_sink
 2/2 Test: qa_compact_file_sink
 Command: "/bin/sh" "/home/ns3/Documents/grc/modules/gr-compacter/build/python/qa_compact_file_sink_test.sh"
 Directory: /home/ns3/Documents/grc/modules/gr-compacter/build/python
-"qa_compact_file_sink" start time: Oct 29 11:11 CET
+"qa_compact_file_sink" start time: Oct 29 17:43 CET
 Output:
 ----------------------------------------------------------
-2 out of 8 values were kept
-Byte length: 23
-bin_no 0 value -50
-bin_no 6 value -55
-0000000000000000000000000000000000000000000000000000000000000000011101000000000000000000000000000000000000000000000001100000000000000000000000001110100100001100000000000000000000000000
-wrote 23 bytes of compact data
-2 out of 8 values were kept
-Byte length: 23
-bin_no 0 value -50
-bin_no 6 value -55
-0000000000000000000000000000000000000000000000000000000000000000011101000000000000000000000000000000000000000000000001100000000000000000000000001110100100001100000000000000000000000000
-wrote 23 bytes of compact data
+vector_no:  1111111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+char buffer = >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< 
+Writing following buffer to file: > 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000
+time_stamp: (1540831341784.0,)
+sample_rate: (2000000,)
+fft_size: (1024,)
+center_freq: (868300000,)
+vector_no: (0,)
+struct.unpack_from(): (0,)
+length_format: 00000000000000000000000000000000
+compact_format: False
+vector_no:  1111111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+char buffer = >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< >
+< 
+Writing following buffer to file: > 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000
 E
 ======================================================================
 ERROR: test_001_t (__main__.qa_compact_file_sink)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/home/ns3/Documents/grc/modules/gr-compacter/python/qa_compact_file_sink.py", line 51, in test_001_t
-    time_stamp = struct.unpack_from('d',f.read(8)) # 64 bit doubleprecision float: timestamp
-error: unpack_from requires a buffer of at least 8 bytes
+  File "/home/ns3/Documents/grc/modules/gr-compacter/python/qa_compact_file_sink.py", line 70, in test_001_t
+    length = length_format.tobytes() >> 1
+TypeError: unsupported operand type(s) for >>: 'str' and 'int'
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.003s
+Ran 1 test in 0.031s
 
 FAILED (errors=1)
+time_stamp: (1540831341784.0,)
+sample_rate: (2000000,)
+fft_size: (1024,)
+center_freq: (868300000,)
+vector_no: (0,)
+struct.unpack_from(): (0,)
+length_format: 00000000000000000000000000000000
+compact_format: False
 <end of output>
-Test time =   0.20 sec
+Test time =   0.25 sec
 ----------------------------------------------------------
 Test Failed.
-"qa_compact_file_sink" end time: Oct 29 11:11 CET
+"qa_compact_file_sink" end time: Oct 29 17:43 CET
 "qa_compact_file_sink" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Oct 29 11:11 CET
+End testing: Oct 29 17:43 CET
