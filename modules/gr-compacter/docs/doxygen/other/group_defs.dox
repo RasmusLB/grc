@@ -1,0 +1,7 @@
+/*!
+ * \defgroup block GNU Radio COMPACTER C++ Signal Processing Blocks
+ * \brief All C++ blocks that can be used from the COMPACTER GNU Radio
+ *        module are listed here or in the subcategories below.
+ *
+ */
+

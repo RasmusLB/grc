@@ -1,0 +1,4 @@
+test_compacter 7 0.00438057
+qa_compact_file_sink 19 0
+---
+qa_compact_file_sink

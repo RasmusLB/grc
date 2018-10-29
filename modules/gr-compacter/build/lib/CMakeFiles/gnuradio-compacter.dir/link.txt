@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -O3 -DNDEBUG  -shared -Wl,-soname,libgnuradio-compacter-1.0.0git.so.0.0.0 -o libgnuradio-compacter-1.0.0git.so.0.0.0 CMakeFiles/gnuradio-compacter.dir/compact_file_sink_impl.cc.o -lboost_filesystem -lboost_system -lgnuradio-runtime -lgnuradio-pmt -llog4cpp -lgnuradio-blocks 
