@@ -45,16 +45,21 @@ namespace gr {
               gr::io_signature::make(0, 0, 0)),
         file_sink_base(filename, true, append)
     {
+      // Set variables
+      d_time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();   
+      set_sample_rate(2000000);
+      set_fft_size(1024);
+      set_center_freq(868300000);
+	 set_compact_threshold(-63);
+
+	 
       do_update();
 
       // Write meta data to file
-      d_time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+      
       int count = fwrite(&d_time_stamp, sizeof(d_time_stamp), 1, d_fp) * sizeof(d_time_stamp);      
-      d_sample_rate = 2000000;
       count += fwrite(&d_sample_rate, sizeof(d_sample_rate), 1, d_fp) * sizeof(d_sample_rate);
-      d_fft_size = 1024;
       count += fwrite(&d_fft_size, sizeof(d_fft_size), 1, d_fp) * sizeof(d_fft_size);
-      d_center_freq = 868300000;
       count += fwrite(&d_center_freq, sizeof(d_center_freq), 1, d_fp) * sizeof(d_center_freq);
     }
 
@@ -63,8 +68,69 @@ namespace gr {
      */
     compact_file_sink_impl::~compact_file_sink_impl()
     {
+      
     }
 
+
+    /*
+     * Setters and getters
+     */
+    void 
+    compact_file_sink_impl::set_sample_rate(uint64_t sample_rate)
+    {
+      d_sample_rate = sample_rate;
+    }
+
+    uint64_t 
+    compact_file_sink_impl::sample_rate()
+    {
+      return d_sample_rate;
+    }
+   
+
+    void 
+    compact_file_sink_impl::set_fft_size(uint32_t fft_size)
+    {
+      d_bin_no_bit_size = static_cast<uint32_t>(std::ceil(log2(fft_size)));
+      d_fft_size = fft_size;
+    }
+
+    uint32_t 
+    compact_file_sink_impl::fft_size()
+    {
+      return d_fft_size;
+    }
+      
+
+    void 
+    compact_file_sink_impl::set_center_freq(uint64_t center_freq)
+    {
+      d_center_freq = center_freq;
+    }
+	 
+
+    uint64_t 
+    compact_file_sink_impl::center_freq()
+    {
+      return d_center_freq;
+    }
+
+    void 
+    compact_file_sink_impl::set_compact_threshold(float compact_threshold)
+    {
+      d_compact_threshold = compact_threshold;
+    }
+
+
+    float 
+    compact_file_sink_impl::compact_threshold()
+    {
+      return d_compact_threshold;
+    }
+
+    /*
+     * Actual work of function
+     */
     int
     compact_file_sink_impl::work(int noutput_items,
         gr_vector_const_void_star &input_items,
@@ -75,7 +141,7 @@ namespace gr {
 
       
       
-	 int max_fft_bins = log2(d_fft_size); // Derived size does not need to be sent
+	 
 
 
 	 // Write actual data to file
@@ -144,7 +210,7 @@ namespace gr {
         if(inbuf[i] > d_compact_threshold)
         {
  		std::cout << "bin_no " << i << " value " << inbuf[i] << std::endl;
-		boost::dynamic_bitset<> bin_no(log2(d_fft_size), (unsigned long) i);
+		boost::dynamic_bitset<> bin_no(d_bin_no_bit_size, (unsigned long) i);
 		boost::dynamic_bitset<> value(sizeof(float)*CHAR_BIT, *const_cast<unsigned long*>(reinterpret_cast<const unsigned long*> (&inbuf[i]) ));
           
 		injectLoopDyn(compact_bitset, bin_no, offset); 

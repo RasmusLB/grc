@@ -1,10 +1,10 @@
-Start testing: Oct 29 09:49 CET
+Start testing: Oct 29 11:11 CET
 ----------------------------------------------------------
 2/2 Testing: qa_compact_file_sink
 2/2 Test: qa_compact_file_sink
 Command: "/bin/sh" "/home/ns3/Documents/grc/modules/gr-compacter/build/python/qa_compact_file_sink_test.sh"
 Directory: /home/ns3/Documents/grc/modules/gr-compacter/build/python
-"qa_compact_file_sink" start time: Oct 29 09:49 CET
+"qa_compact_file_sink" start time: Oct 29 11:11 CET
 Output:
 ----------------------------------------------------------
 2 out of 8 values were kept
@@ -29,15 +29,15 @@ Traceback (most recent call last):
 error: unpack_from requires a buffer of at least 8 bytes
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.001s
+Ran 1 test in 0.003s
 
 FAILED (errors=1)
 <end of output>
-Test time =   0.21 sec
+Test time =   0.20 sec
 ----------------------------------------------------------
 Test Failed.
-"qa_compact_file_sink" end time: Oct 29 09:49 CET
+"qa_compact_file_sink" end time: Oct 29 11:11 CET
 "qa_compact_file_sink" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Oct 29 09:49 CET
+End testing: Oct 29 11:11 CET

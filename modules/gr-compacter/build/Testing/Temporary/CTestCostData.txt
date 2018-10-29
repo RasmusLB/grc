@@ -1,4 +1,4 @@
-test_compacter 7 0.00438057
+test_compacter 8 0.00386474
 qa_compact_file_sink 19 0
 ---
 qa_compact_file_sink

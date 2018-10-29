@@ -35,8 +35,9 @@ namespace gr {
       uint64_t d_sample_rate = 2000000;
       uint32_t d_fft_size = 1024;
       uint64_t d_center_freq = 868300000;
-	 uint64_t d_vector_no = 0;
 	 float d_compact_threshold = -63;
+	 uint64_t d_vector_no = 0;
+	 uint32_t d_bin_no_bit_size = 0;
 
       boost::shared_ptr<char[]> compact(const float *inbuf, int *compact_size, int noutput_items);
       boost::dynamic_bitset<> concatLoopDyn( const boost::dynamic_bitset<>& bs1,const boost::dynamic_bitset<>& bs2);
@@ -45,6 +46,16 @@ namespace gr {
      public:
       compact_file_sink_impl(const char *filename, bool append=false);
       ~compact_file_sink_impl();
+
+	 // Setters and getters
+	 void set_sample_rate(uint64_t sample_rate);
+	 uint64_t sample_rate();
+      void set_fft_size(uint32_t fft_size);
+	 uint32_t fft_size();
+      void set_center_freq(uint64_t center_freq);
+	 uint64_t center_freq();
+	 void set_compact_threshold(float compact_threshold);
+	 float compact_threshold();
 
       // Where all the action really happens
       int work(int noutput_items,

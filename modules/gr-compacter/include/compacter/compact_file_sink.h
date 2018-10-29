@@ -50,12 +50,20 @@ namespace gr {
        * class. compacter::compact_file_sink::make is the public interface for
        * creating new instances.
        *
-       * \param itemsize size of the input data items.
        * \param filename name of the file to open and write output to.
        * \param append if true, data is appended to the file instead of
        *        overwriting the initial content.
        */
       static sptr make(const char *filename, bool append=false);
+	 
+	 virtual void set_sample_rate(uint64_t sample_rate) = 0;//2000000;
+	 virtual uint64_t sample_rate() = 0;
+      virtual void set_fft_size(uint32_t fft_size) = 0;//1024;
+	 virtual uint32_t fft_size() = 0;
+      virtual void set_center_freq(uint64_t center_freq) = 0;//868300000;
+	 virtual uint64_t center_freq() = 0;
+	 virtual void set_compact_threshold(float compact_threshold) = 0;//-63;
+	 virtual float compact_threshold() = 0;
     };
 
   } // namespace compacter
