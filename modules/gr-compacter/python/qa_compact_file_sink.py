@@ -40,13 +40,13 @@ class qa_compact_file_sink (gr_unittest.TestCase):
         src_data = (-50, -99, -63, -90, -97, -77, -55, -89)
         expected_result = (-50, -55)
         src = blocks.vector_source_f(src_data)
-        dst = compacter.compact_file_sink("tester123.rtl",False)
+        dst = compacter.compact_file_sink("tester1234.rtl",False)
         self.tb.connect(src,dst)
         self.tb.run ()
         
         # check data
         #copyfile("tester123.rtl", "tester1234.rtl")
-        f = open("tester1234.rtl", "rb") # r: read   b: binary mode Absolute path: /home/ns3/Documents/grc/modules/gr-compacter/build/python/
+        f = open("tester123.rtl", "rb") # r: read   b: binary mode Absolute path: /home/ns3/Documents/grc/modules/gr-compacter/build/python/
         try:
             time_stamp = struct.unpack_from('d',f.read(8)) # 64 bit doubleprecision float: timestamp
             sample_rate = struct.unpack_from('Q',f.read(8)) # 64 bit unsigned int: sample rate

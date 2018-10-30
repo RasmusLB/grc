@@ -187,17 +187,17 @@ for (int i = 0; i < 23; i++){
 	 if (compact_items > 50)
       {
 	   *compact_size = d_fft_size * 4;
-	   format = 1;
+	   format = 0;
 	 } else {
         int bit_length = 64 + 32 + compact_items * (32 + log2(d_fft_size));
         int padding = 8 - (bit_length % 8);
 	   *compact_size = (bit_length + padding) / 8 ;
 //	   std::cout << "Byte length: " << *compact_size << std::endl;
-	  format = 0;
+	   format = 1;
 	 }
 
 	 size_t bit_length = *compact_size * 8;
-      boost::dynamic_bitset<> compact_bitset(bit_length);
+      boost::dynamic_bitset<uint8_t> compact_bitset(bit_length);
 	 int offset = 0;
 	 
 	 // vector number
@@ -219,6 +219,15 @@ for (int i = 0; i < 23; i++){
 	 // length and format
 	 boost::dynamic_bitset<> length_format(32, *compact_size << 1);
 	 length_format[length_format.size()-1] = format;
+std::cout << "length_format[]: " <<  length_format[length_format.size()-1] << std::endl;
+
+std::cout << "length_format: ";
+for(int i = 0; i <32;i++)
+      {
+	   std::cout <<  length_format[i];
+      }
+std::cout << std::endl;
+
       injectLoopDyn(compact_bitset, length_format, offset); 
 	 offset += length_format.size();
 
@@ -248,24 +257,47 @@ for (int i = 0; i < 23; i++){
 
 	 boost::dynamic_bitset<> padding(unused);
 	 injectLoopDyn(compact_bitset, padding, offset);
+
+std::cout << "bitset before converting to char buffer: ";
 	 for (boost::dynamic_bitset<>::size_type i = 0; i < compact_bitset.size(); ++i){
-	   compact_bitset[i] = 0;
         std::cout << compact_bitset[i];}
 	 std::cout << std::endl;
 
       // Now we just need to convert the bitset into a nice char buffer
  	 
-	 std::vector<uint8_t> bytes;
+	 //const int bytes_size = *compact_size;
+	 typedef uint8_t Block;
+	 std::vector<Block> bytes;
+	 //boost::dynamic_bitset<uint8_t> transfer(compact_bitset.size());
+	 //transfer = compact_bitset;
+	 //bytes.resize(bytes_size);
+	 std::cout << "bytes.size() " << bytes.size() << "): " << std::endl;
+	 std::cout << "compact_size " << *compact_size << "): " << std::endl;
       boost::to_block_range(compact_bitset, std::back_inserter(bytes));
-      std::cout << "char buffer = ";
+      std::cout << "char buffer (size = " << bytes.size() << "): " ;
 	 for(int i = 0; i <*compact_size;i++)
       {
 	   compact_buf[i] = bytes[i];
-	   std::cout << ">" <<  compact_buf[i] << "< ";
       }
+
+std::cout << "Transferring following buffer: ";
+	for (int i = 0; i < *compact_size; i++){
+	  std::bitset<8> x(compact_buf[i]);
+	  std::cout << "> " << x ;
+	}
+	std::cout << std::endl;
+
 	 std::cout << std::endl;
       return compact_buf;
     }
+
+    void 
+    compact_file_sink_impl::injectLoopDyn( boost::dynamic_bitset<uint8_t>& bs1,const boost::dynamic_bitset<>& bs2,int start)
+    {
+      for(size_t i=0;i<bs2.size();i++)
+        bs1[i+start]=bs2[i];
+    }
+
 
     void 
     compact_file_sink_impl::injectLoopDyn( boost::dynamic_bitset<>& bs1,const boost::dynamic_bitset<>& bs2,int start)
