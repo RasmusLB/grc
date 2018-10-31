@@ -1,11 +1,15 @@
-<testsuite errors="1" failures="0" name="unittest.suite.TestSuite" tests="1" time="0.005">
-  <testcase classname="__main__.qa_compact_file_sink" name="test_001_t" time="0.0045">
-    <error type="exceptions.TypeError">unsupported operand type(s) for &gt;&gt;: 'str' and 'int'
+<testsuite errors="0" failures="1" name="unittest.suite.TestSuite" tests="1" time="0.003">
+  <testcase classname="__main__.qa_compact_file_sink" name="test_001_t" time="0.0027">
+    <failure type="exceptions.AssertionError">(2000000,) != 2000000
   File "/usr/lib/python2.7/unittest/case.py", line 329, in run
     testMethod()
-  File "/home/ns3/Documents/grc/modules/gr-compacter/python/qa_compact_file_sink.py", line 70, in test_001_t
-    length = length_format.tobytes() &gt;&gt; 1
-    </error>
+  File "/home/ns3/Documents/grc/modules/gr-compacter/python/qa_compact_file_sink.py", line 119, in test_001_t
+    self.assertEqual((2000000,), sample_rate)
+  File "/usr/lib/python2.7/unittest/case.py", line 513, in assertEqual
+    assertion_func(first, second, msg=msg)
+  File "/usr/lib/python2.7/unittest/case.py", line 506, in _baseAssertEqual
+    raise self.failureException(msg)
+    </failure>
   </testcase>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
