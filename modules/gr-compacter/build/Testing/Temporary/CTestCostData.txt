@@ -1,4 +1,3 @@
 test_compacter 17 0.00213894
-qa_compact_file_sink 45 0
+qa_compact_file_sink 56 0.00374807
 ---
-qa_compact_file_sink

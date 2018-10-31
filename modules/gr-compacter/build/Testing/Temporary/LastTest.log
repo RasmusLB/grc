@@ -1,67 +1,61 @@
-Start testing: Oct 31 13:10 CET
+Start testing: Oct 31 17:07 CET
 ----------------------------------------------------------
 2/2 Testing: qa_compact_file_sink
 2/2 Test: qa_compact_file_sink
 Command: "/bin/sh" "/home/ns3/Documents/grc/modules/gr-compacter/build/python/qa_compact_file_sink_test.sh"
 Directory: /home/ns3/Documents/grc/modules/gr-compacter/build/python
-"qa_compact_file_sink" start time: Oct 31 13:10 CET
+"qa_compact_file_sink" start time: Oct 31 17:07 CET
 Output:
 ----------------------------------------------------------
-vector_no:  bin_no 0 value -50
-bitset before injection of bin no and value: 0000000000000000000000000000000000000000000000000000000000000000101000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-bin_no 6 value -55
-bitset before injection of bin no and value: 0000000000000000000000000000000000000000000000000000000000000000101000000000000000000000000000000000000000000000000000000000010010010000110000000000000000000000000000000000000000000000
-bitset before converting to char buffer: 0000000000000000000000000000000000000000000000000000000000000000101000000000000000000000000000000000000000000000000000000000010010010000110110000000000000000000000000111010010000110000
-bytes.size() 0): 
-compact_size 23): 
-char buffer (size = 23): Wrote following buffer to file: > 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000101> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00100000> 00001001> 00011011> 00000000> 00000000> 11000000> 00100101> 00001100
-time_stamp: 1.5409871789e+12
+bitset_length: 312
+*compact_size: 39
+padding_bits: 6
+compact_size 39): 
+compact_bitset.size()/8 39
+char buffer (size = 39): 
+Transferring buffer from function 16
+compact size: 39
+Wrote 39 bytes to file
+time_stamp: 1.5410020703e+12
 sample_rate: 2000000
 fft_size: 1024
 center_freq: 868300000
 vector_no: 0
-compact_length: 2
+compact_length: 5
 compact_format: 1
-bytes to read: 11
-data: 0000000000000000000000000000010010010000110110000000000000000000000000111010010000110000 length: 88
-dataDict: {0: [(0, -50.0), (6, -55.0)]}
-vector_no:  bin_no 0 value -50
-bitset before injection of bin no and value: 0000000000000000000000000000000000000000000000000000000000000000101000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-bin_no 6 value -55
-bitset before injection of bin no and value: 0000000000000000000000000000000000000000000000000000000000000000101000000000000000000000000000000000000000000000000000000000010010010000110000000000000000000000000000000000000000000000
-bitset before converting to char buffer: 0000000000000000000000000000000000000000000000000000000000000000101000000000000000000000000000000000000000000000000000000000010010010000110110000000000000000000000000111010010000110000
-bytes.size() 0): 
-compact_size 23): 
-char buffer (size = 23): Wrote following buffer to file: > 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00000101> 00000000> 00000000> 00000000> 00000000> 00000000> 00000000> 00100000> 00001001> 00011011> 00000000> 00000000> 11000000> 00100101> 00001100
-F
-======================================================================
-FAIL: test_001_t (__main__.qa_compact_file_sink)
+format 1
+bytes to read: 27
+dataDict: {0: [(0, -50.0), (6, -55.0), (8, -50.0), (9, -20.0), (11, -25.0)]}
+bitset_length: 312
+*compact_size: 39
+padding_bits: 6
+compact_size 39): 
+compact_bitset.size()/8 39
+char buffer (size = 39): 
+Transferring buffer from function 16
+compact size: 39
+Wrote 39 bytes to file
+.
 ----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/ns3/Documents/grc/modules/gr-compacter/python/qa_compact_file_sink.py", line 119, in test_001_t
-    self.assertEqual((2000000,), sample_rate)
-AssertionError: (2000000,) != 2000000
+Ran 1 test in 0.003s
 
-----------------------------------------------------------------------
-Ran 1 test in 0.029s
-
-FAILED (failures=1)
-time_stamp: 1.5409871789e+12
+OK
+time_stamp: 1.5410020703e+12
 sample_rate: 2000000
 fft_size: 1024
 center_freq: 868300000
 vector_no: 0
-compact_length: 2
+compact_length: 5
 compact_format: 1
-bytes to read: 11
-data: 0000000000000000000000000000010010010000110110000000000000000000000000111010010000110000 length: 88
-dataDict: {0: [(0, -50.0), (6, -55.0)]}
+format 1
+bytes to read: 27
+dataDict: {0: [(0, -50.0), (6, -55.0), (8, -50.0), (9, -20.0), (11, -25.0)]}
 <end of output>
-Test time =   0.20 sec
+Test time =   0.21 sec
 ----------------------------------------------------------
-Test Failed.
-"qa_compact_file_sink" end time: Oct 31 13:10 CET
+Test Passed.
+"qa_compact_file_sink" end time: Oct 31 17:07 CET
 "qa_compact_file_sink" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Oct 31 13:10 CET
+End testing: Oct 31 17:07 CET

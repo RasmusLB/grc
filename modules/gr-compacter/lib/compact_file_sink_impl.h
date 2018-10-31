@@ -40,7 +40,6 @@ namespace gr {
 	 uint32_t d_bin_no_bit_size = 0;
 
       boost::shared_ptr<char[]> compact(const float *inbuf, int *compact_size, int noutput_items);
-      boost::dynamic_bitset<> concatLoopDyn( const boost::dynamic_bitset<>& bs1,const boost::dynamic_bitset<>& bs2);
 	 void injectLoopDyn( boost::dynamic_bitset<uint8_t>& bs1,const boost::dynamic_bitset<>& bs2,int start);
 	 void injectLoopDyn( boost::dynamic_bitset<>& bs1,const boost::dynamic_bitset<>& bs2,int start);
 
