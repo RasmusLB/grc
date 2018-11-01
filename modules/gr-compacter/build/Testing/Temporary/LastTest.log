@@ -1,61 +1,49 @@
-Start testing: Oct 31 17:07 CET
+Start testing: Nov 01 09:40 CET
 ----------------------------------------------------------
 2/2 Testing: qa_compact_file_sink
 2/2 Test: qa_compact_file_sink
 Command: "/bin/sh" "/home/ns3/Documents/grc/modules/gr-compacter/build/python/qa_compact_file_sink_test.sh"
 Directory: /home/ns3/Documents/grc/modules/gr-compacter/build/python
-"qa_compact_file_sink" start time: Oct 31 17:07 CET
+"qa_compact_file_sink" start time: Nov 01 09:40 CET
 Output:
 ----------------------------------------------------------
-bitset_length: 312
-*compact_size: 39
-padding_bits: 6
-compact_size 39): 
-compact_bitset.size()/8 39
-char buffer (size = 39): 
+bitset_length: 352
+*compact_size: 44
+padding_bits: 4
+compact_size 44): 
+compact_bitset.size()/8 44
+char buffer (size = 44): 
 Transferring buffer from function 16
-compact size: 39
-Wrote 39 bytes to file
-time_stamp: 1.5410020703e+12
-sample_rate: 2000000
-fft_size: 1024
-center_freq: 868300000
-vector_no: 0
-compact_length: 5
+compact size: 44
+Wrote 72 bytes to file
+compact_length: 6
 compact_format: 1
-format 1
-bytes to read: 27
-dataDict: {0: [(0, -50.0), (6, -55.0), (8, -50.0), (9, -20.0), (11, -25.0)]}
-bitset_length: 312
-*compact_size: 39
-padding_bits: 6
-compact_size 39): 
-compact_bitset.size()/8 39
-char buffer (size = 39): 
+format:1
+bytes to read: 32
+bitset_length: 352
+*compact_size: 44
+padding_bits: 4
+compact_size 44): 
+compact_bitset.size()/8 44
+char buffer (size = 44): 
 Transferring buffer from function 16
-compact size: 39
-Wrote 39 bytes to file
+compact size: 44
+Wrote 72 bytes to file
 .
 ----------------------------------------------------------------------
-Ran 1 test in 0.003s
+Ran 1 test in 0.004s
 
 OK
-time_stamp: 1.5410020703e+12
-sample_rate: 2000000
-fft_size: 1024
-center_freq: 868300000
-vector_no: 0
-compact_length: 5
+compact_length: 6
 compact_format: 1
-format 1
-bytes to read: 27
-dataDict: {0: [(0, -50.0), (6, -55.0), (8, -50.0), (9, -20.0), (11, -25.0)]}
+format:1
+bytes to read: 32
 <end of output>
-Test time =   0.21 sec
+Test time =   0.26 sec
 ----------------------------------------------------------
 Test Passed.
-"qa_compact_file_sink" end time: Oct 31 17:07 CET
+"qa_compact_file_sink" end time: Nov 01 09:40 CET
 "qa_compact_file_sink" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Oct 31 17:07 CET
+End testing: Nov 01 09:40 CET

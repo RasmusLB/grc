@@ -51,16 +51,6 @@ namespace gr {
       set_fft_size(1024);
       set_center_freq(868300000);
 	 set_compact_threshold(-63);
-
-	 
-      do_update();
-
-      // Write meta data to file
-      
-      int count = fwrite(&d_time_stamp, sizeof(d_time_stamp), 1, d_fp) * sizeof(d_time_stamp) ;      
-      count += fwrite(&d_sample_rate, sizeof(d_sample_rate), 1, d_fp) * sizeof(d_sample_rate);
-      count += fwrite(&d_fft_size, sizeof(d_fft_size), 1, d_fp) * sizeof(d_fft_size);
-      count += fwrite(&d_center_freq, sizeof(d_center_freq), 1, d_fp) * sizeof(d_center_freq);
     }
 
     /*
@@ -138,13 +128,24 @@ namespace gr {
       const float *inbuf = (const float *) input_items[0];
       int  nwritten = 0;
 
+	 do_update();
+
+	 int meta_bytes = 0;
 	 // Write actual data to file
+	 if (d_vector_no == 0)
+	 {
+	   // Write meta data to file
+        meta_bytes = fwrite(&d_time_stamp, sizeof(d_time_stamp), 1, d_fp) * sizeof(d_time_stamp) ;      
+        meta_bytes += fwrite(&d_sample_rate, sizeof(d_sample_rate), 1, d_fp) * sizeof(d_sample_rate);
+        meta_bytes += fwrite(&d_fft_size, sizeof(d_fft_size), 1, d_fp) * sizeof(d_fft_size);
+        meta_bytes += fwrite(&d_center_freq, sizeof(d_center_freq), 1, d_fp) * sizeof(d_center_freq);
+	 }
       // Create one long byte array, and write it to file
  	 int compact_size = 0;
       boost::shared_ptr<char[]> compact_buf = compact(inbuf, &compact_size, noutput_items);
 
 std::cout << "compact size: " << compact_size << std::endl; 
-	 do_update();
+	 
 
 	 char test[compact_size];
 	 for (int i = 0; i < compact_size; i++)
@@ -152,7 +153,7 @@ std::cout << "compact size: " << compact_size << std::endl;
 	   test[i] = compact_buf[i];
 	 }
 	 int count = fwrite(test, compact_size, 1, d_fp);
-	 std::cout << "Wrote " << compact_size << " bytes to file" << std::endl;
+	 std::cout << "Wrote " << compact_size + meta_bytes << " bytes to file" << std::endl;
 /*	std::cout << "Wrote following buffer to file: ";
 	for (int i = 0; i < compact_size; i++){
 	  std::bitset<8> x(test[i]);

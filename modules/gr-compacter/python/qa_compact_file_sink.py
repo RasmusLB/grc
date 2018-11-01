@@ -74,16 +74,66 @@ class qa_compact_file_sink (gr_unittest.TestCase):
 
     def test_001_t (self):
         # set up fg
-        src_data = (-50, -99, -63, -90, -97, -77, -55, -89, -50, -20, -105, - 25)
-        expected_result = (-50, -55)
+        src_data = (-50, -99, -63, -90, -97, -77, -55, -89, -50, -20, -105, - 25) + (-87,) * 1011 + (-12,)
+        lst = []
+        for i in range(len(src_data)):
+            if src_data[i] > -63:
+                lst.append((i,src_data[i]))
+        expected_result = {0: lst}
+        #expected_result = {0: [(0, -50.0), (6, -55.0), (8, -50.0), (9, -20.0), (11, -25.0), (1023, -12.0)]}
         src = blocks.vector_source_f(src_data)
         dst = compacter.compact_file_sink("tester123.rtl",False)
+        dst.set_sample_rate(2000000)
+        dst.set_fft_size(1024)
+        dst.set_center_freq(868300000)
+        dst.set_compact_threshold(-63)
         self.tb.connect(src,dst)
         self.tb.run ()
         
         # check data
+        time_stamp, sample_rate, fft_size, center_freq, dataDict = self.extract_file("tester1234.rtl")
+        self.assertEqual(2000000, sample_rate)
+        self.assertEqual(1024, fft_size)
+        self.assertEqual(868300000, center_freq)
+        for vector_no in expected_result:
+            self.assertEqual(expected_result[vector_no],dataDict[vector_no])
+        
+
+    def read_values(self,compact_format,compact_length,bin_size_bits,f):
+        print "format:" + str(compact_format)
+        index_value_list = []
+        if compact_format == False:
+            bytes_to_read = (int) (4*compact_length)
+            print "bytes to read: " + str(bytes_to_read)
+            data = self.read_to_bitarray(f,bytes_to_read)
+            for i in range(compact_length):
+                start_bit = (int) (i * (32))
+                stop_bit = (int) (i * (32) + 32)
+                bin_no = i
+                value = self.bits_to_float(data[start_bit:stop_bit])
+                index_value_list.append((bin_no,value))
+        elif compact_format == True:
+            bytes_to_read = (int) (np.ceil(compact_length * (32 + bin_size_bits)/8))
+            data = self.read_to_bitarray(f,bytes_to_read)
+            print "bytes to read: " + str(bytes_to_read)
+            for i in range(compact_length):
+                start_bit = (int) (i * (bin_size_bits + 32))
+                stop_bit = (int) (i * (bin_size_bits + 32) + bin_size_bits)
+                bin_no = self.bits_to_int(data[start_bit:stop_bit])
+                start_bit = stop_bit
+                stop_bit = stop_bit + 32
+                value = self.bits_to_float(data[start_bit:stop_bit])
+                index_value_list.append((bin_no,value))
+        else:
+            print "ERROR: Unknown compact_format: " + str(compact_format)
+            return [-1,]
+        return index_value_list
+
+
+    def extract_file(self,filename):
+        # check data
         #copyfile("tester123.rtl", "tester1234.rtl")
-        f = open("tester1234.rtl", "rb") # r: read   b: binary mode Absolute path: /home/ns3/Documents/grc/modules/gr-compacter/build/python/
+        f = open(filename, "rb") # r: read   b: binary mode Absolute path: /home/ns3/Documents/grc/modules/gr-compacter/build/python/
         try:
             time_stamp = struct.unpack_from('d',f.read(8))[0] # 64 bit doubleprecision float: timestamp
             sample_rate = struct.unpack_from('Q',f.read(8))[0] # 64 bit unsigned int: sample rate
@@ -91,60 +141,18 @@ class qa_compact_file_sink (gr_unittest.TestCase):
             center_freq = struct.unpack_from('Q',f.read(8))[0] # 64 bit unsigned int: center frequency
             bin_size_bits = np.ceil(np.log2(fft_size))
             vector_no = self.read_vector_no(f) # 64 bit unsigned int: the fft output is computed on vectors of size fft_size. This variable gives the vector number
-            print "time_stamp: " + str(time_stamp)
-            print "sample_rate: " + str(sample_rate)
-            print "fft_size: " + str(fft_size)
-            print "center_freq: " + str(center_freq)
-            print "vector_no: " + str(vector_no)
+
             dataDict = {}
             while vector_no != -1:
                 compact_length, compact_format = self.read_length_and_format(f)
                 print "compact_length: " + str(compact_length)
                 print "compact_format: " + str(compact_format)
-
-                index_value_list = []
-                bin_no_size = np.ceil(np.log2(fft_size))
-                bytes_to_read = 0
-                if compact_format == True:
-                    
-                    bytes_to_read = (int) (np.ceil(compact_length * (32 + bin_size_bits)/8))
-                    print "format 1"
-                elif compact_format == False:
-
-                    bytes_to_read = (int) (4*compact_length)
-                    print "format 0"
-                data = self.read_to_bitarray(f,bytes_to_read)
-                
-                print "bytes to read: " + str(bytes_to_read)
-                #print "data: " + data.to01() + " length: " + str(len(data))
-
-                if compact_format == 1:
-                    for i in range(compact_length):
-                        start_bit = (int) (i * (bin_no_size + 32))
-                        stop_bit = (int) (i * (bin_no_size + 32) + bin_no_size)
-                        bin_no = self.bits_to_int(data[start_bit:stop_bit])
-                        start_bit = stop_bit
-                        stop_bit = stop_bit + 32
-                        value = self.bits_to_float(data[start_bit:stop_bit])
-                        index_value_list.append((bin_no,value))
-                elif compact_format == 0:
-                    for i in range(compact_length):
-                        start_bit = (int) (i * (32))
-                        stop_bit = (int) (i * (32) + 32)
-                        bin_no = i
-                        value = self.bits_to_float(data[start_bit:stop_bit])
-                        index_value_list.append((bin_no,value))
-                dataDict[vector_no] = index_value_list
-                
+                dataDict[vector_no] = self.read_values(compact_format,compact_length,bin_size_bits,f)
                 vector_no = self.read_vector_no(f)
-                print "dataDict: " + str(dataDict)
-            result_data = {0: [(0, -50.0), (6, -55.0), (8, -50.0), (9, -20.0), (11, -25.0)]} 
-            self.assertEqual(2000000, sample_rate)
-            for vector_no in result_data:
-                self.assertEqual(result_data[vector_no],dataDict[vector_no])
-
+            return time_stamp, sample_rate, fft_size, center_freq, dataDict
         finally:
             f.close()
+
 
 
 if __name__ == '__main__':
