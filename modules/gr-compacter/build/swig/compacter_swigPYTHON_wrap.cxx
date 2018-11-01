@@ -5564,6 +5564,50 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_compact_file_sink_set_unbuffered(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  gr::compacter::compact_file_sink *arg1 = (gr::compacter::compact_file_sink *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "unbuffered", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:compact_file_sink_set_unbuffered",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_gr__compacter__compact_file_sink, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_set_unbuffered" "', argument " "1"" of type '" "gr::compacter::compact_file_sink *""'"); 
+  }
+  arg1 = reinterpret_cast< gr::compacter::compact_file_sink * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "compact_file_sink_set_unbuffered" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  {
+    try {
+      (arg1)->set_unbuffered(arg2);
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_delete_compact_file_sink(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   gr::compacter::compact_file_sink *arg1 = (gr::compacter::compact_file_sink *) 0 ;
@@ -6120,6 +6164,50 @@ SWIGINTERN PyObject *_wrap_compact_file_sink_sptr_compact_threshold(PyObject *SW
     
   }
   resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_compact_file_sink_sptr_set_unbuffered(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  boost::shared_ptr< gr::compacter::compact_file_sink > *arg1 = (boost::shared_ptr< gr::compacter::compact_file_sink > *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "unbuffered", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:compact_file_sink_sptr_set_unbuffered",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_boost__shared_ptrT_gr__compacter__compact_file_sink_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_sptr_set_unbuffered" "', argument " "1"" of type '" "boost::shared_ptr< gr::compacter::compact_file_sink > *""'"); 
+  }
+  arg1 = reinterpret_cast< boost::shared_ptr< gr::compacter::compact_file_sink > * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "compact_file_sink_sptr_set_unbuffered" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  {
+    try {
+      (*arg1)->set_unbuffered(arg2);
+    }
+    catch(std::exception &e) {
+      SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+    catch(...) {
+      SWIG_exception(SWIG_RuntimeError, "Unknown exception");
+    }
+    
+  }
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -9039,6 +9127,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"compact_file_sink_center_freq", _wrap_compact_file_sink_center_freq, METH_VARARGS, (char *)"compact_file_sink_center_freq(compact_file_sink self) -> uint64_t"},
 	 { (char *)"compact_file_sink_set_compact_threshold", (PyCFunction) _wrap_compact_file_sink_set_compact_threshold, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_set_compact_threshold(compact_file_sink self, float compact_threshold)"},
 	 { (char *)"compact_file_sink_compact_threshold", _wrap_compact_file_sink_compact_threshold, METH_VARARGS, (char *)"compact_file_sink_compact_threshold(compact_file_sink self) -> float"},
+	 { (char *)"compact_file_sink_set_unbuffered", (PyCFunction) _wrap_compact_file_sink_set_unbuffered, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_set_unbuffered(compact_file_sink self, bool unbuffered)"},
 	 { (char *)"delete_compact_file_sink", _wrap_delete_compact_file_sink, METH_VARARGS, (char *)"delete_compact_file_sink(compact_file_sink self)"},
 	 { (char *)"compact_file_sink_swigregister", compact_file_sink_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_compact_file_sink_sptr", _wrap_new_compact_file_sink_sptr, METH_VARARGS, (char *)"\n"
@@ -9056,6 +9145,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"compact_file_sink_sptr_center_freq", _wrap_compact_file_sink_sptr_center_freq, METH_VARARGS, (char *)"compact_file_sink_sptr_center_freq(compact_file_sink_sptr self) -> uint64_t"},
 	 { (char *)"compact_file_sink_sptr_set_compact_threshold", (PyCFunction) _wrap_compact_file_sink_sptr_set_compact_threshold, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_set_compact_threshold(compact_file_sink_sptr self, float compact_threshold)"},
 	 { (char *)"compact_file_sink_sptr_compact_threshold", _wrap_compact_file_sink_sptr_compact_threshold, METH_VARARGS, (char *)"compact_file_sink_sptr_compact_threshold(compact_file_sink_sptr self) -> float"},
+	 { (char *)"compact_file_sink_sptr_set_unbuffered", (PyCFunction) _wrap_compact_file_sink_sptr_set_unbuffered, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_set_unbuffered(compact_file_sink_sptr self, bool unbuffered)"},
 	 { (char *)"compact_file_sink_sptr_history", _wrap_compact_file_sink_sptr_history, METH_VARARGS, (char *)"compact_file_sink_sptr_history(compact_file_sink_sptr self) -> unsigned int"},
 	 { (char *)"compact_file_sink_sptr_declare_sample_delay", _wrap_compact_file_sink_sptr_declare_sample_delay, METH_VARARGS, (char *)"\n"
 		"declare_sample_delay(int which, int delay)\n"

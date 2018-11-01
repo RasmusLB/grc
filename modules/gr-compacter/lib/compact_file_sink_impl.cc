@@ -117,6 +117,12 @@ namespace gr {
       return d_compact_threshold;
     }
 
+    void 
+    compact_file_sink_impl::set_unbuffered(bool unbuffered)
+    {
+      d_unbuffered = unbuffered;
+    }
+
     /*
      * Actual work carried out here
      */
@@ -161,6 +167,8 @@ std::cout << "compact size: " << compact_size << std::endl;
 	}
 	std::cout << std::endl;
 */
+	 if (d_unbuffered)
+	   fflush(d_fp);
       // Tell runtime system how many output items we produced.
       return noutput_items;
     }

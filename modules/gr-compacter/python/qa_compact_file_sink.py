@@ -26,78 +26,52 @@ from bitstring import BitArray
 from bitstring import ConstBitStream
 from shutil import copyfile
 import numpy as np
+import tempfile
 import compacter_swig as compacter
 import struct
+import os
 
 class qa_compact_file_sink (gr_unittest.TestCase):
 
     def setUp (self):
+        os.environ['GR_CONF_CONTROLPORT_ON'] = 'False'
         self.tb = gr.top_block ()
+
 
     def tearDown (self):
         self.tb = None
 
-    def bits_to_int (self,bitarray):
-        bitarray.fill()
-        bitarray.reverse()
-        if bitarray.length() == 16:
-            fmt = '>H'
-        elif bitarray.length() == 8:
-            fmt = '>B'
-        return struct.unpack_from(fmt,bitarray.tobytes())[0]
-
-    def bits_to_float (self,bitarray):
-        bitarray.reverse()
-        #print "value: " + bitarray.to01()
-        return struct.unpack_from('>f',bitarray.tobytes())[0]
-
-    def read_length_and_format (self,f):
-        packed = struct.unpack_from('I',f.read(4))[0] # 31 bit unsigned int + 1 bit flag = 32 bit
-        compact_format = packed & 0x1
-        compact_length = packed >> 1
-        return compact_length, compact_format
-
-    def read_to_bitarray(self,f,bytes_to_read):
-        data = bitarray()
-        data.fromfile(f,bytes_to_read)
-        for i in range(bytes_to_read):
-            tmp = data[(i * 8):(i * 8 + 8)]
-            tmp.reverse()
-            data[(i * 8):(i * 8 + 8)] = tmp
-        return data
-
-    def read_vector_no(self,f):
-        vector_no = f.read(8)
-        if vector_no == "":
-            return -1
-        return struct.unpack_from('Q',vector_no)[0]
 
     def test_001_t (self):
         # set up fg
-        src_data = (-50, -99, -63, -90, -97, -77, -55, -89, -50, -20, -105, - 25) + (-87,) * 1011 + (-12,)
+        src_data = (-50, -99, -63, -90, -97, -77, -55, -89, -50, -20, -105, - 25) + (-78,) * 1011 + (-12,)
         lst = []
         for i in range(len(src_data)):
             if src_data[i] > -63:
                 lst.append((i,src_data[i]))
         expected_result = {0: lst}
-        #expected_result = {0: [(0, -50.0), (6, -55.0), (8, -50.0), (9, -20.0), (11, -25.0), (1023, -12.0)]}
-        src = blocks.vector_source_f(src_data)
-        dst = compacter.compact_file_sink("tester123.rtl",False)
-        dst.set_sample_rate(2000000)
-        dst.set_fft_size(1024)
-        dst.set_center_freq(868300000)
-        dst.set_compact_threshold(-63)
-        self.tb.connect(src,dst)
-        self.tb.run ()
+        with tempfile.NamedTemporaryFile() as temp:
+            src = blocks.vector_source_f(src_data)
+            dst = compacter.compact_file_sink(temp.name,False)
+            dst.set_unbuffered(True)
+            dst.set_sample_rate(2000000)
+            dst.set_fft_size(1024)
+            dst.set_center_freq(868300000)
+            dst.set_compact_threshold(-63)
+            self.tb.connect(src,dst)
+            self.tb.run ()
         
-        # check data
-        time_stamp, sample_rate, fft_size, center_freq, dataDict = self.extract_file("tester1234.rtl")
-        self.assertEqual(2000000, sample_rate)
-        self.assertEqual(1024, fft_size)
-        self.assertEqual(868300000, center_freq)
-        for vector_no in expected_result:
-            self.assertEqual(expected_result[vector_no],dataDict[vector_no])
-        
+            # check data
+            file_size = os.stat(temp.name).st_size
+            assert(file_size > 0)
+            print "File size: " + str(file_size)
+            time_stamp, sample_rate, fft_size, center_freq, dataDict = self.extract_file(temp.name)
+            self.assertEqual(2000000, sample_rate)
+            self.assertEqual(1024, fft_size)
+            self.assertEqual(868300000, center_freq)
+            for vector_no in expected_result:
+                self.assertEqual(expected_result[vector_no],dataDict[vector_no])
+            
 
     def read_values(self,compact_format,compact_length,bin_size_bits,f):
         print "format:" + str(compact_format)
@@ -153,7 +127,40 @@ class qa_compact_file_sink (gr_unittest.TestCase):
         finally:
             f.close()
 
+    def bits_to_int (self,bitarray):
+        bitarray.fill()
+        bitarray.reverse()
+        if bitarray.length() == 16:
+            fmt = '>H'
+        elif bitarray.length() == 8:
+            fmt = '>B'
+        return struct.unpack_from(fmt,bitarray.tobytes())[0]
 
+    def bits_to_float (self,bitarray):
+        bitarray.reverse()
+        #print "value: " + bitarray.to01()
+        return struct.unpack_from('>f',bitarray.tobytes())[0]
+
+    def read_length_and_format (self,f):
+        packed = struct.unpack_from('I',f.read(4))[0] # 31 bit unsigned int + 1 bit flag = 32 bit
+        compact_format = packed & 0x1
+        compact_length = packed >> 1
+        return compact_length, compact_format
+
+    def read_to_bitarray(self,f,bytes_to_read):
+        data = bitarray()
+        data.fromfile(f,bytes_to_read)
+        for i in range(bytes_to_read):
+            tmp = data[(i * 8):(i * 8 + 8)]
+            tmp.reverse()
+            data[(i * 8):(i * 8 + 8)] = tmp
+        return data
+
+    def read_vector_no(self,f):
+        vector_no = f.read(8)
+        if vector_no == "":
+            return -1
+        return struct.unpack_from('Q',vector_no)[0]
 
 if __name__ == '__main__':
     gr_unittest.run(qa_compact_file_sink, "qa_compact_file_sink.xml")

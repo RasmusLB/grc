@@ -1,10 +1,10 @@
-Start testing: Nov 01 09:40 CET
+Start testing: Nov 01 10:57 CET
 ----------------------------------------------------------
 2/2 Testing: qa_compact_file_sink
 2/2 Test: qa_compact_file_sink
 Command: "/bin/sh" "/home/ns3/Documents/grc/modules/gr-compacter/build/python/qa_compact_file_sink_test.sh"
 Directory: /home/ns3/Documents/grc/modules/gr-compacter/build/python
-"qa_compact_file_sink" start time: Nov 01 09:40 CET
+"qa_compact_file_sink" start time: Nov 01 10:57 CET
 Output:
 ----------------------------------------------------------
 bitset_length: 352
@@ -16,6 +16,7 @@ char buffer (size = 44):
 Transferring buffer from function 16
 compact size: 44
 Wrote 72 bytes to file
+File size: 72
 compact_length: 6
 compact_format: 1
 format:1
@@ -31,19 +32,20 @@ compact size: 44
 Wrote 72 bytes to file
 .
 ----------------------------------------------------------------------
-Ran 1 test in 0.004s
+Ran 1 test in 0.002s
 
 OK
+File size: 72
 compact_length: 6
 compact_format: 1
 format:1
 bytes to read: 32
 <end of output>
-Test time =   0.26 sec
+Test time =   0.21 sec
 ----------------------------------------------------------
 Test Passed.
-"qa_compact_file_sink" end time: Nov 01 09:40 CET
+"qa_compact_file_sink" end time: Nov 01 10:57 CET
 "qa_compact_file_sink" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Nov 01 09:40 CET
+End testing: Nov 01 10:57 CET

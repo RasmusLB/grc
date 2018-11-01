@@ -56,6 +56,7 @@ namespace gr {
 	 uint64_t center_freq();
 	 void set_compact_threshold(float compact_threshold);
 	 float compact_threshold();
+	 void set_unbuffered(bool unbuffered);
 
       // Where all the action really happens
       int work(int noutput_items,

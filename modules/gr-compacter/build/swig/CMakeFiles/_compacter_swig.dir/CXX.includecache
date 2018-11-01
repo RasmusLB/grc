@@ -13,6 +13,8 @@ gnuradio/attributes.h
 ../include/compacter/compact_file_sink.h
 compacter/api.h
 -
+gnuradio/blocks/api.h
+-
 gnuradio/blocks/file_sink_base.h
 -
 gnuradio/sync_block.h

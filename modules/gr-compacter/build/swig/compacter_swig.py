@@ -166,6 +166,11 @@ class compact_file_sink(object):
         """compact_threshold(compact_file_sink self) -> float"""
         return _compacter_swig.compact_file_sink_compact_threshold(self)
 
+
+    def set_unbuffered(self, unbuffered):
+        """set_unbuffered(compact_file_sink self, bool unbuffered)"""
+        return _compacter_swig.compact_file_sink_set_unbuffered(self, unbuffered)
+
     __swig_destroy__ = _compacter_swig.delete_compact_file_sink
     __del__ = lambda self: None
 compact_file_sink_swigregister = _compacter_swig.compact_file_sink_swigregister
@@ -242,6 +247,11 @@ class compact_file_sink_sptr(object):
     def compact_threshold(self):
         """compact_threshold(compact_file_sink_sptr self) -> float"""
         return _compacter_swig.compact_file_sink_sptr_compact_threshold(self)
+
+
+    def set_unbuffered(self, unbuffered):
+        """set_unbuffered(compact_file_sink_sptr self, bool unbuffered)"""
+        return _compacter_swig.compact_file_sink_sptr_set_unbuffered(self, unbuffered)
 
 
     def history(self):

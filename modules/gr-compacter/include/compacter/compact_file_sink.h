@@ -23,6 +23,7 @@
 #define INCLUDED_COMPACTER_COMPACT_FILE_SINK_H
 
 #include <compacter/api.h>
+#include <gnuradio/blocks/api.h>
 #include <gnuradio/blocks/file_sink_base.h>
 #include <gnuradio/sync_block.h>
 
@@ -64,6 +65,7 @@ namespace gr {
 	 virtual uint64_t center_freq() = 0;
 	 virtual void set_compact_threshold(float compact_threshold) = 0;//-63;
 	 virtual float compact_threshold() = 0;
+	 virtual void set_unbuffered(bool unbuffered) = 0;
     };
 
   } // namespace compacter
