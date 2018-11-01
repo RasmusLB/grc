@@ -45,7 +45,7 @@ namespace gr {
               gr::io_signature::make(0, 0, 0)),
         file_sink_base(filename, true, append)
     {
-      // Set variables
+      // Set variables - should be overwritten
       d_time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();   
       set_sample_rate(2000000);
       set_fft_size(1024);
@@ -60,7 +60,6 @@ namespace gr {
     {
       
     }
-
 
     /*
      * Setters and getters
@@ -125,6 +124,7 @@ namespace gr {
 
     /*
      * Actual work carried out here
+     * noutput_items is the number of items pointed to by &input_items
      */
     int
     compact_file_sink_impl::work(int noutput_items,
@@ -147,26 +147,10 @@ namespace gr {
         meta_bytes += fwrite(&d_center_freq, sizeof(d_center_freq), 1, d_fp) * sizeof(d_center_freq);
 	 }
       // Create one long byte array, and write it to file
- 	 int compact_size = 0;
+ 	 int compact_size = 0; // number of bytes in compact_buf
       boost::shared_ptr<char[]> compact_buf = compact(inbuf, &compact_size, noutput_items);
-
-std::cout << "compact size: " << compact_size << std::endl; 
-	 
-
-	 char test[compact_size];
-	 for (int i = 0; i < compact_size; i++)
- 	 {
-	   test[i] = compact_buf[i];
-	 }
-	 int count = fwrite(test, compact_size, 1, d_fp);
-	 std::cout << "Wrote " << compact_size + meta_bytes << " bytes to file" << std::endl;
-/*	std::cout << "Wrote following buffer to file: ";
-	for (int i = 0; i < compact_size; i++){
-	  std::bitset<8> x(test[i]);
-	  std::cout << "> " << x ;
-	}
-	std::cout << std::endl;
-*/
+	 int count = fwrite(compact_buf.get(), compact_size, 1, d_fp);
+      // Option to force writing to file (used in test functions)
 	 if (d_unbuffered)
 	   fflush(d_fp);
       // Tell runtime system how many output items we produced.
@@ -177,7 +161,7 @@ std::cout << "compact size: " << compact_size << std::endl;
     boost::shared_ptr<char[]>
     compact_file_sink_impl::compact(const float *inbuf, int *compact_size, int noutput_items)
     {
-      int compact_items = 0;
+      int compact_items = 0; // count the number of values within threshold
 	 for(int i = 0; i < noutput_items; i++)
       {
         if(inbuf[i] > d_compact_threshold)
@@ -186,11 +170,12 @@ std::cout << "compact size: " << compact_size << std::endl;
         }
       }
 
-	 int format = 0;
-	 int format_0_byte_size = 64 + 32 + d_fft_size * 4;
+	 int format = 0; // see .rtl format specification for description of the two formats
+	 int format_0_byte_size = 8 + 4 + d_fft_size * 4;
 	 int bit_length = 64 + 32 + compact_items * (32 + ceil(log2(d_fft_size)));
 	 int padding_bits = (8 - (bit_length % 8))%8;
 	 int format_1_byte_size = (bit_length + padding_bits) / 8 ;
+
 	 if (format_0_byte_size < format_1_byte_size)
       {
 	   *compact_size = format_0_byte_size;
@@ -200,9 +185,8 @@ std::cout << "compact size: " << compact_size << std::endl;
 	   format = 1;
 	 }
 
-	 size_t bitset_length = *compact_size * 8;
-std::cout << "bitset_length: " << bitset_length << std::endl;
-std::cout << "*compact_size: " << *compact_size << std::endl;
+	 size_t bitset_length = *compact_size * 8; // number of bits needed to store the values
+	 // The compact bitset is allocated once and values are then injected
       boost::dynamic_bitset<uint8_t> compact_bitset(bitset_length);
 	 int offset = 0;
 	 
@@ -211,80 +195,54 @@ std::cout << "*compact_size: " << *compact_size << std::endl;
 	 injectLoopDyn(compact_bitset, vector_no, offset); 
 	 offset += vector_no.size();
 	 d_vector_no++;
-	 
-
-	 // length and format
-	 if (format == 1)
+	 	 
+	 if (format == 0)
 	 {
-	   boost::dynamic_bitset<> length_format(32, compact_items << 1);
-	   length_format[0] = format;
-        injectLoopDyn(compact_bitset, length_format, offset); 
-	   offset += length_format.size();
-	 } else {
+	   // length and format
 	   boost::dynamic_bitset<> length_format(32, d_fft_size << 1);
 	   length_format[0] = format;
         injectLoopDyn(compact_bitset, length_format, offset); 
 	   offset += length_format.size();
-	 }
-
-	 
-      int j = 0;
-      for(int i = 0; i < noutput_items; i++)
-      {
-        if(inbuf[i] > d_compact_threshold)
+	   int j = 0;
+        for(int i = 0; i < noutput_items; i++)
         {
- 		//std::cout << "bin_no " << i << " value " << inbuf[i] << std::endl;
-		
-		boost::dynamic_bitset<> bin_no(d_bin_no_bit_size, (unsigned long) i);
 		boost::dynamic_bitset<> value(sizeof(float)*CHAR_BIT, *const_cast<unsigned long*>(reinterpret_cast<const unsigned long*> (&inbuf[i]) ));
-
-		if(format == 1)
-		{
-		  injectLoopDyn(compact_bitset, bin_no, offset); 
-		  offset += bin_no.size();
-		}
 		injectLoopDyn(compact_bitset, value, offset);
 	   	offset += value.size();	
-          j++;
         }
-
-      }
-
-	 if (format == 1)
-	 {
+	 } else if (format == 1) {
+	   // length and format
+	   boost::dynamic_bitset<> length_format(32, compact_items << 1);
+	   length_format[0] = format;
+        injectLoopDyn(compact_bitset, length_format, offset); 
+	   offset += length_format.size();
+ 	   int j = 0;
+        for(int i = 0; i < noutput_items; i++)
+        {
+          if(inbuf[i] > d_compact_threshold)
+          {
+		  boost::dynamic_bitset<> bin_no(d_bin_no_bit_size, (unsigned long) i);
+		  boost::dynamic_bitset<> value(sizeof(float)*CHAR_BIT, *const_cast<unsigned long*>(reinterpret_cast<const unsigned long*> (&inbuf[i]) ));
+		  injectLoopDyn(compact_bitset, bin_no, offset); 
+		  offset += bin_no.size();
+		  injectLoopDyn(compact_bitset, value, offset);
+	   	  offset += value.size();	
+            j++;
+          }
+        }
 	   boost::dynamic_bitset<> padding(padding_bits);
-std::cout << "padding_bits: " << padding_bits << std::endl;
 	   injectLoopDyn(compact_bitset, padding, offset);
 	 }
 
-/*std::cout << "bitset before converting to char buffer(" << *compact_size << "): ";
-	 for (boost::dynamic_bitset<>::size_type i = 0; i < compact_bitset.size(); ++i){
-        std::cout << compact_bitset[i];}
-	 std::cout << std::endl;*/
-
-      // Now we just need to convert the bitset into a nice char buffer
- 	 
-	 //const int bytes_size = *compact_size;
-
+      // Convert the bitset into a char (uint8_t) buffer
 	 boost::shared_ptr<char[]> compact_buf( new char[*compact_size] );
 	 typedef uint8_t Block;
 	 std::vector<Block> bytes;
-	 std::cout << "compact_size " << *compact_size << "): " << std::endl;
-	 std::cout << "compact_bitset.size()/8 " << compact_bitset.size()/8 << std::endl;
       boost::to_block_range(compact_bitset, std::back_inserter(bytes));
-      std::cout << "char buffer (size = " << bytes.size() << "): " << std::endl;
 	 for(int i = 0; i <*compact_size;i++)
       {
 	   compact_buf[i] = bytes[i];
       }
-/*
-std::cout << "Transferring following buffer: ";
-	for (int i = 0; i < *compact_size; i++){
-	  std::bitset<8> x(compact_buf[i]);
-	  std::cout << "> " << x ;
-	}
-	std::cout << std::endl;*/
-std::cout << "Transferring buffer from function " << sizeof(compact_buf) << std::endl;
       return compact_buf;
     }
 
@@ -293,12 +251,11 @@ std::cout << "Transferring buffer from function " << sizeof(compact_buf) << std:
     {
       for(size_t i=0;i<bs2.size();i++)
 	 {
-	   
         bs1[i+start]=bs2[i];
 	 }
     }
 
-
+    // Author: https://stackoverflow.com/users/1029901/fericelli
     void 
     compact_file_sink_impl::injectLoopDyn( boost::dynamic_bitset<>& bs1,const boost::dynamic_bitset<>& bs2,int start)
     {

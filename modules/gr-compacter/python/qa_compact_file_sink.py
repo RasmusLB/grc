@@ -43,35 +43,73 @@ class qa_compact_file_sink (gr_unittest.TestCase):
 
 
     def test_001_t (self):
-        # set up fg
-        src_data = (-50, -99, -63, -90, -97, -77, -55, -89, -50, -20, -105, - 25) + (-78,) * 1011 + (-12,)
-        lst = []
-        for i in range(len(src_data)):
-            if src_data[i] > -63:
-                lst.append((i,src_data[i]))
-        expected_result = {0: lst}
+        print "Test_001: Check that unpacking format=1 works"
+        src_data = (-50, -99, -63, -90, -97, -77, -55, -89, -50, -20, -105, - 25) + (-87,) * 1011 + (-12,)
+        self.feed_data_t(src_data)
+        print "Test_001: Completed \n" 
+
+
+    def test_002_t (self):
+        print "Test_002: Check that unpacking format=0 works"
+        src_data = (-50, -99, -63, -90, -97, -77, -55, -89, -50, -20, -105, - 25) + (-8,) * 1011 + (-12,)
+        self.feed_data_t(src_data)
+        print "Test_002: Completed \n"
+
+
+    def test_003_t (self):
+        print "Test_003: Check that unpacking a file without values works"
+        src_data = (-65, -99, -63, -90, -97, -77, -82, -89, -82, -86, -105, - 96) + (-87,) * 1011 + (-112,)
+        self.feed_data_t(src_data)
+        print "Test_003: Completed \n"
+
+
+    def feed_data_t (self,src_data):
+        # set up test
+        d_fft_size = 1024
+        d_sample_rate = 2000000
+        d_center_freq = 868300000
+        d_compact_threshold = -63
+        expected_result = self.expected_result(src_data,d_fft_size,d_compact_threshold)
         with tempfile.NamedTemporaryFile() as temp:
             src = blocks.vector_source_f(src_data)
             dst = compacter.compact_file_sink(temp.name,False)
             dst.set_unbuffered(True)
-            dst.set_sample_rate(2000000)
-            dst.set_fft_size(1024)
-            dst.set_center_freq(868300000)
-            dst.set_compact_threshold(-63)
+            dst.set_sample_rate(d_sample_rate)
+            dst.set_fft_size(d_fft_size)
+            dst.set_center_freq(d_center_freq)
+            dst.set_compact_threshold(d_compact_threshold)
             self.tb.connect(src,dst)
             self.tb.run ()
-        
             # check data
             file_size = os.stat(temp.name).st_size
             assert(file_size > 0)
-            print "File size: " + str(file_size)
             time_stamp, sample_rate, fft_size, center_freq, dataDict = self.extract_file(temp.name)
-            self.assertEqual(2000000, sample_rate)
-            self.assertEqual(1024, fft_size)
-            self.assertEqual(868300000, center_freq)
+            self.assertEqual(d_sample_rate, sample_rate)
+            self.assertEqual(d_fft_size, fft_size)
+            self.assertEqual(d_center_freq, center_freq)
             for vector_no in expected_result:
-                self.assertEqual(expected_result[vector_no],dataDict[vector_no])
-            
+                for i in range(len(expected_result[vector_no])):
+                    self.assertEqual(expected_result[vector_no][i],dataDict[vector_no][i])
+
+
+    def expected_result(self,src_data,fft_size,compact_threshold):
+        compact_items = 0
+        for i in range(len(src_data)):
+            if src_data[i] > compact_threshold:
+                compact_items = compact_items + 1
+        format_0_byte_size = 8 + 4 + fft_size * 4
+        bit_length = 64 + 32 + compact_items * (32 + np.ceil(np.log2(fft_size)))
+        padding_bits = (8 - (bit_length % 8))%8
+        format_1_byte_size = (bit_length + padding_bits) / 8 
+        lst = []
+        if format_0_byte_size < format_1_byte_size:
+            for i in range(len(src_data)):
+                lst.append((i,src_data[i]))
+        else:
+            for i in range(len(src_data)):
+                if src_data[i] > compact_threshold:
+                    lst.append((i,src_data[i]))
+        return {0:lst}
 
     def read_values(self,compact_format,compact_length,bin_size_bits,f):
         print "format:" + str(compact_format)
@@ -158,6 +196,7 @@ class qa_compact_file_sink (gr_unittest.TestCase):
 
     def read_vector_no(self,f):
         vector_no = f.read(8)
+        print "vector_no being read"
         if vector_no == "":
             return -1
         return struct.unpack_from('Q',vector_no)[0]

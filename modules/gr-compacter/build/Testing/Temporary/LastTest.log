@@ -1,51 +1,94 @@
-Start testing: Nov 01 10:57 CET
+Start testing: Nov 01 15:45 CET
 ----------------------------------------------------------
+1/2 Testing: test_compacter
+1/2 Test: test_compacter
+Command: "/bin/sh" "/home/ns3/Documents/grc/modules/gr-compacter/build/lib/test_compacter_test.sh"
+Directory: /home/ns3/Documents/grc/modules/gr-compacter/build/lib
+"test_compacter" start time: Nov 01 15:45 CET
+Output:
+----------------------------------------------------------
+
+
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_compacter" end time: Nov 01 15:45 CET
+"test_compacter" time elapsed: 00:00:00
+----------------------------------------------------------
+
 2/2 Testing: qa_compact_file_sink
 2/2 Test: qa_compact_file_sink
 Command: "/bin/sh" "/home/ns3/Documents/grc/modules/gr-compacter/build/python/qa_compact_file_sink_test.sh"
 Directory: /home/ns3/Documents/grc/modules/gr-compacter/build/python
-"qa_compact_file_sink" start time: Nov 01 10:57 CET
+"qa_compact_file_sink" start time: Nov 01 15:45 CET
 Output:
 ----------------------------------------------------------
-bitset_length: 352
-*compact_size: 44
-padding_bits: 4
-compact_size 44): 
-compact_bitset.size()/8 44
-char buffer (size = 44): 
-Transferring buffer from function 16
-compact size: 44
-Wrote 72 bytes to file
-File size: 72
-compact_length: 6
-compact_format: 1
-format:1
-bytes to read: 32
-bitset_length: 352
-*compact_size: 44
-padding_bits: 4
-compact_size 44): 
-compact_bitset.size()/8 44
-char buffer (size = 44): 
-Transferring buffer from function 16
-compact size: 44
-Wrote 72 bytes to file
-.
+...
 ----------------------------------------------------------------------
-Ran 1 test in 0.002s
+Ran 3 tests in 0.014s
 
 OK
-File size: 72
+Test_001: Check that unpacking format=1 works
+vector_no being read
 compact_length: 6
 compact_format: 1
 format:1
 bytes to read: 32
+vector_no being read
+Test_001: Completed 
+
+Test_002: Check that unpacking format=0 works
+vector_no being read
+compact_length: 1024
+compact_format: 0
+format:0
+bytes to read: 4096
+vector_no being read
+Test_002: Completed 
+
+Test_003: Check that unpacking a file without values works
+vector_no being read
+compact_length: 0
+compact_format: 1
+format:1
+bytes to read: 0
+vector_no being read
+Test_003: Completed 
+
+Test_001: Check that unpacking format=1 works
+vector_no being read
+compact_length: 6
+compact_format: 1
+format:1
+bytes to read: 32
+vector_no being read
+Test_001: Completed 
+
+Test_002: Check that unpacking format=0 works
+vector_no being read
+compact_length: 1024
+compact_format: 0
+format:0
+bytes to read: 4096
+vector_no being read
+Test_002: Completed 
+
+Test_003: Check that unpacking a file without values works
+vector_no being read
+compact_length: 0
+compact_format: 1
+format:1
+bytes to read: 0
+vector_no being read
+Test_003: Completed 
+
 <end of output>
-Test time =   0.21 sec
+Test time =   0.23 sec
 ----------------------------------------------------------
 Test Passed.
-"qa_compact_file_sink" end time: Nov 01 10:57 CET
+"qa_compact_file_sink" end time: Nov 01 15:45 CET
 "qa_compact_file_sink" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Nov 01 10:57 CET
+End testing: Nov 01 15:45 CET
