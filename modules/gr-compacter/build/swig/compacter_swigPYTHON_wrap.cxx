@@ -4390,6 +4390,198 @@ SWIG_From_long_SS_long  (long long value)
 #include "compacter/compact_file_sink.h"
 
 
+SWIGINTERN int
+SWIG_AsVal_double (PyObject *obj, double *val)
+{
+  int res = SWIG_TypeError;
+  if (PyFloat_Check(obj)) {
+    if (val) *val = PyFloat_AsDouble(obj);
+    return SWIG_OK;
+#if PY_VERSION_HEX < 0x03000000
+  } else if (PyInt_Check(obj)) {
+    if (val) *val = (double) PyInt_AsLong(obj);
+    return SWIG_OK;
+#endif
+  } else if (PyLong_Check(obj)) {
+    double v = PyLong_AsDouble(obj);
+    if (!PyErr_Occurred()) {
+      if (val) *val = v;
+      return SWIG_OK;
+    } else {
+      PyErr_Clear();
+    }
+  }
+#ifdef SWIG_PYTHON_CAST_MODE
+  {
+    int dispatch = 0;
+    double d = PyFloat_AsDouble(obj);
+    if (!PyErr_Occurred()) {
+      if (val) *val = d;
+      return SWIG_AddCast(SWIG_OK);
+    } else {
+      PyErr_Clear();
+    }
+    if (!dispatch) {
+      long v = PyLong_AsLong(obj);
+      if (!PyErr_Occurred()) {
+	if (val) *val = v;
+	return SWIG_AddCast(SWIG_AddCast(SWIG_OK));
+      } else {
+	PyErr_Clear();
+      }
+    }
+  }
+#endif
+  return res;
+}
+
+
+#include <float.h>
+
+
+#include <math.h>
+
+
+SWIGINTERNINLINE int
+SWIG_CanCastAsInteger(double *d, double min, double max) {
+  double x = *d;
+  if ((min <= x && x <= max)) {
+   double fx = floor(x);
+   double cx = ceil(x);
+   double rd =  ((x - fx) < 0.5) ? fx : cx; /* simple rint */
+   if ((errno == EDOM) || (errno == ERANGE)) {
+     errno = 0;
+   } else {
+     double summ, reps, diff;
+     if (rd < x) {
+       diff = x - rd;
+     } else if (rd > x) {
+       diff = rd - x;
+     } else {
+       return 1;
+     }
+     summ = rd + x;
+     reps = diff/summ;
+     if (reps < 8*DBL_EPSILON) {
+       *d = rd;
+       return 1;
+     }
+   }
+  }
+  return 0;
+}
+
+
+SWIGINTERN int
+SWIG_AsVal_unsigned_SS_long (PyObject *obj, unsigned long *val) 
+{
+#if PY_VERSION_HEX < 0x03000000
+  if (PyInt_Check(obj)) {
+    long v = PyInt_AsLong(obj);
+    if (v >= 0) {
+      if (val) *val = v;
+      return SWIG_OK;
+    } else {
+      return SWIG_OverflowError;
+    }
+  } else
+#endif
+  if (PyLong_Check(obj)) {
+    unsigned long v = PyLong_AsUnsignedLong(obj);
+    if (!PyErr_Occurred()) {
+      if (val) *val = v;
+      return SWIG_OK;
+    } else {
+      PyErr_Clear();
+      return SWIG_OverflowError;
+    }
+  }
+#ifdef SWIG_PYTHON_CAST_MODE
+  {
+    int dispatch = 0;
+    unsigned long v = PyLong_AsUnsignedLong(obj);
+    if (!PyErr_Occurred()) {
+      if (val) *val = v;
+      return SWIG_AddCast(SWIG_OK);
+    } else {
+      PyErr_Clear();
+    }
+    if (!dispatch) {
+      double d;
+      int res = SWIG_AddCast(SWIG_AsVal_double (obj,&d));
+      if (SWIG_IsOK(res) && SWIG_CanCastAsInteger(&d, 0, ULONG_MAX)) {
+	if (val) *val = (unsigned long)(d);
+	return res;
+      }
+    }
+  }
+#endif
+  return SWIG_TypeError;
+}
+
+
+#ifdef SWIG_LONG_LONG_AVAILABLE
+SWIGINTERN int
+SWIG_AsVal_unsigned_SS_long_SS_long (PyObject *obj, unsigned long long *val)
+{
+  int res = SWIG_TypeError;
+  if (PyLong_Check(obj)) {
+    unsigned long long v = PyLong_AsUnsignedLongLong(obj);
+    if (!PyErr_Occurred()) {
+      if (val) *val = v;
+      return SWIG_OK;
+    } else {
+      PyErr_Clear();
+      res = SWIG_OverflowError;
+    }
+  } else {
+    unsigned long v;
+    res = SWIG_AsVal_unsigned_SS_long (obj,&v);
+    if (SWIG_IsOK(res)) {
+      if (val) *val = v;
+      return res;
+    }
+  }
+#ifdef SWIG_PYTHON_CAST_MODE
+  {
+    const double mant_max = 1LL << DBL_MANT_DIG;
+    double d;
+    res = SWIG_AsVal_double (obj,&d);
+    if (SWIG_IsOK(res) && !SWIG_CanCastAsInteger(&d, 0, mant_max))
+      return SWIG_OverflowError;
+    if (SWIG_IsOK(res) && SWIG_CanCastAsInteger(&d, 0, mant_max)) {
+      if (val) *val = (unsigned long long)(d);
+      return SWIG_AddCast(res);
+    }
+    res = SWIG_TypeError;
+  }
+#endif
+  return res;
+}
+#endif
+
+
+SWIGINTERNINLINE int
+SWIG_AsVal_size_t (PyObject * obj, size_t *val)
+{
+  int res = SWIG_TypeError;
+#ifdef SWIG_LONG_LONG_AVAILABLE
+  if (sizeof(size_t) <= sizeof(unsigned long)) {
+#endif
+    unsigned long v;
+    res = SWIG_AsVal_unsigned_SS_long (obj, val ? &v : 0);
+    if (SWIG_IsOK(res) && val) *val = static_cast< size_t >(v);
+#ifdef SWIG_LONG_LONG_AVAILABLE
+  } else if (sizeof(size_t) <= sizeof(unsigned long long)) {
+    unsigned long long v;
+    res = SWIG_AsVal_unsigned_SS_long_SS_long (obj, val ? &v : 0);
+    if (SWIG_IsOK(res) && val) *val = static_cast< size_t >(v);
+  }
+#endif
+  return res;
+}
+
+
 SWIGINTERN swig_type_info*
 SWIG_pchar_descriptor(void)
 {
@@ -4520,88 +4712,6 @@ SWIG_AsCharPtrAndSize(PyObject *obj, char** cptr, size_t* psize, int *alloc)
 
 
 SWIGINTERN int
-SWIG_AsVal_double (PyObject *obj, double *val)
-{
-  int res = SWIG_TypeError;
-  if (PyFloat_Check(obj)) {
-    if (val) *val = PyFloat_AsDouble(obj);
-    return SWIG_OK;
-#if PY_VERSION_HEX < 0x03000000
-  } else if (PyInt_Check(obj)) {
-    if (val) *val = (double) PyInt_AsLong(obj);
-    return SWIG_OK;
-#endif
-  } else if (PyLong_Check(obj)) {
-    double v = PyLong_AsDouble(obj);
-    if (!PyErr_Occurred()) {
-      if (val) *val = v;
-      return SWIG_OK;
-    } else {
-      PyErr_Clear();
-    }
-  }
-#ifdef SWIG_PYTHON_CAST_MODE
-  {
-    int dispatch = 0;
-    double d = PyFloat_AsDouble(obj);
-    if (!PyErr_Occurred()) {
-      if (val) *val = d;
-      return SWIG_AddCast(SWIG_OK);
-    } else {
-      PyErr_Clear();
-    }
-    if (!dispatch) {
-      long v = PyLong_AsLong(obj);
-      if (!PyErr_Occurred()) {
-	if (val) *val = v;
-	return SWIG_AddCast(SWIG_AddCast(SWIG_OK));
-      } else {
-	PyErr_Clear();
-      }
-    }
-  }
-#endif
-  return res;
-}
-
-
-#include <float.h>
-
-
-#include <math.h>
-
-
-SWIGINTERNINLINE int
-SWIG_CanCastAsInteger(double *d, double min, double max) {
-  double x = *d;
-  if ((min <= x && x <= max)) {
-   double fx = floor(x);
-   double cx = ceil(x);
-   double rd =  ((x - fx) < 0.5) ? fx : cx; /* simple rint */
-   if ((errno == EDOM) || (errno == ERANGE)) {
-     errno = 0;
-   } else {
-     double summ, reps, diff;
-     if (rd < x) {
-       diff = x - rd;
-     } else if (rd > x) {
-       diff = rd - x;
-     } else {
-       return 1;
-     }
-     summ = rd + x;
-     reps = diff/summ;
-     if (reps < 8*DBL_EPSILON) {
-       *d = rd;
-       return 1;
-     }
-   }
-  }
-  return 0;
-}
-
-
-SWIGINTERN int
 SWIG_AsVal_long (PyObject *obj, long* val)
 {
 #if PY_VERSION_HEX < 0x03000000
@@ -4656,95 +4766,6 @@ SWIG_AsVal_bool (PyObject *obj, bool *val)
   if (val) *val = r ? true : false;
   return SWIG_OK;
 }
-
-
-SWIGINTERN int
-SWIG_AsVal_unsigned_SS_long (PyObject *obj, unsigned long *val) 
-{
-#if PY_VERSION_HEX < 0x03000000
-  if (PyInt_Check(obj)) {
-    long v = PyInt_AsLong(obj);
-    if (v >= 0) {
-      if (val) *val = v;
-      return SWIG_OK;
-    } else {
-      return SWIG_OverflowError;
-    }
-  } else
-#endif
-  if (PyLong_Check(obj)) {
-    unsigned long v = PyLong_AsUnsignedLong(obj);
-    if (!PyErr_Occurred()) {
-      if (val) *val = v;
-      return SWIG_OK;
-    } else {
-      PyErr_Clear();
-      return SWIG_OverflowError;
-    }
-  }
-#ifdef SWIG_PYTHON_CAST_MODE
-  {
-    int dispatch = 0;
-    unsigned long v = PyLong_AsUnsignedLong(obj);
-    if (!PyErr_Occurred()) {
-      if (val) *val = v;
-      return SWIG_AddCast(SWIG_OK);
-    } else {
-      PyErr_Clear();
-    }
-    if (!dispatch) {
-      double d;
-      int res = SWIG_AddCast(SWIG_AsVal_double (obj,&d));
-      if (SWIG_IsOK(res) && SWIG_CanCastAsInteger(&d, 0, ULONG_MAX)) {
-	if (val) *val = (unsigned long)(d);
-	return res;
-      }
-    }
-  }
-#endif
-  return SWIG_TypeError;
-}
-
-
-#ifdef SWIG_LONG_LONG_AVAILABLE
-SWIGINTERN int
-SWIG_AsVal_unsigned_SS_long_SS_long (PyObject *obj, unsigned long long *val)
-{
-  int res = SWIG_TypeError;
-  if (PyLong_Check(obj)) {
-    unsigned long long v = PyLong_AsUnsignedLongLong(obj);
-    if (!PyErr_Occurred()) {
-      if (val) *val = v;
-      return SWIG_OK;
-    } else {
-      PyErr_Clear();
-      res = SWIG_OverflowError;
-    }
-  } else {
-    unsigned long v;
-    res = SWIG_AsVal_unsigned_SS_long (obj,&v);
-    if (SWIG_IsOK(res)) {
-      if (val) *val = v;
-      return res;
-    }
-  }
-#ifdef SWIG_PYTHON_CAST_MODE
-  {
-    const double mant_max = 1LL << DBL_MANT_DIG;
-    double d;
-    res = SWIG_AsVal_double (obj,&d);
-    if (SWIG_IsOK(res) && !SWIG_CanCastAsInteger(&d, 0, mant_max))
-      return SWIG_OverflowError;
-    if (SWIG_IsOK(res) && SWIG_CanCastAsInteger(&d, 0, mant_max)) {
-      if (val) *val = (unsigned long long)(d);
-      return SWIG_AddCast(res);
-    }
-    res = SWIG_TypeError;
-  }
-#endif
-  return res;
-}
-#endif
 
 
 #ifdef SWIG_LONG_LONG_AVAILABLE
@@ -5208,36 +5229,45 @@ fail:
 
 SWIGINTERN PyObject *_wrap_compact_file_sink_make(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
-  char *arg1 = (char *) 0 ;
-  bool arg2 = (bool) false ;
-  int res1 ;
-  char *buf1 = 0 ;
-  int alloc1 = 0 ;
-  bool val2 ;
-  int ecode2 = 0 ;
+  size_t arg1 ;
+  char *arg2 = (char *) 0 ;
+  bool arg3 = (bool) false ;
+  size_t val1 ;
+  int ecode1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  bool val3 ;
+  int ecode3 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
   char *  kwnames[] = {
-    (char *) "filename",(char *) "append", NULL 
+    (char *) "itemsize",(char *) "filename",(char *) "append", NULL 
   };
   gr::compacter::compact_file_sink::sptr result;
   
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"O|O:compact_file_sink_make",kwnames,&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_AsCharPtrAndSize(obj0, &buf1, NULL, &alloc1);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_make" "', argument " "1"" of type '" "char const *""'");
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO|O:compact_file_sink_make",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  ecode1 = SWIG_AsVal_size_t(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "compact_file_sink_make" "', argument " "1"" of type '" "size_t""'");
+  } 
+  arg1 = static_cast< size_t >(val1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "compact_file_sink_make" "', argument " "2"" of type '" "char const *""'");
   }
-  arg1 = reinterpret_cast< char * >(buf1);
-  if (obj1) {
-    ecode2 = SWIG_AsVal_bool(obj1, &val2);
-    if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "compact_file_sink_make" "', argument " "2"" of type '" "bool""'");
+  arg2 = reinterpret_cast< char * >(buf2);
+  if (obj2) {
+    ecode3 = SWIG_AsVal_bool(obj2, &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "compact_file_sink_make" "', argument " "3"" of type '" "bool""'");
     } 
-    arg2 = static_cast< bool >(val2);
+    arg3 = static_cast< bool >(val3);
   }
   {
     try {
-      result = gr::compacter::compact_file_sink::make((char const *)arg1,arg2);
+      result = gr::compacter::compact_file_sink::make(arg1,(char const *)arg2,arg3);
     }
     catch(std::exception &e) {
       SWIG_exception(SWIG_RuntimeError, e.what());
@@ -5248,10 +5278,10 @@ SWIGINTERN PyObject *_wrap_compact_file_sink_make(PyObject *SWIGUNUSEDPARM(self)
     
   }
   resultobj = SWIG_NewPointerObj((new gr::compacter::compact_file_sink::sptr(static_cast< const gr::compacter::compact_file_sink::sptr& >(result))), SWIGTYPE_p_boost__shared_ptrT_gr__compacter__compact_file_sink_t, SWIG_POINTER_OWN |  0 );
-  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
   return resultobj;
 fail:
-  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
   return NULL;
 }
 
@@ -5806,44 +5836,53 @@ fail:
 SWIGINTERN PyObject *_wrap_compact_file_sink_sptr_make(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   boost::shared_ptr< gr::compacter::compact_file_sink > *arg1 = (boost::shared_ptr< gr::compacter::compact_file_sink > *) 0 ;
-  char *arg2 = (char *) 0 ;
-  bool arg3 = (bool) false ;
+  size_t arg2 ;
+  char *arg3 = (char *) 0 ;
+  bool arg4 = (bool) false ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  int res2 ;
-  char *buf2 = 0 ;
-  int alloc2 = 0 ;
-  bool val3 ;
-  int ecode3 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  bool val4 ;
+  int ecode4 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
   char *  kwnames[] = {
-    (char *) "self",(char *) "filename",(char *) "append", NULL 
+    (char *) "self",(char *) "itemsize",(char *) "filename",(char *) "append", NULL 
   };
   gr::compacter::compact_file_sink::sptr result;
   
-  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO|O:compact_file_sink_sptr_make",kwnames,&obj0,&obj1,&obj2)) SWIG_fail;
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OOO|O:compact_file_sink_sptr_make",kwnames,&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_boost__shared_ptrT_gr__compacter__compact_file_sink_t, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compact_file_sink_sptr_make" "', argument " "1"" of type '" "boost::shared_ptr< gr::compacter::compact_file_sink > *""'"); 
   }
   arg1 = reinterpret_cast< boost::shared_ptr< gr::compacter::compact_file_sink > * >(argp1);
-  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "compact_file_sink_sptr_make" "', argument " "2"" of type '" "char const *""'");
+  ecode2 = SWIG_AsVal_size_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "compact_file_sink_sptr_make" "', argument " "2"" of type '" "size_t""'");
+  } 
+  arg2 = static_cast< size_t >(val2);
+  res3 = SWIG_AsCharPtrAndSize(obj2, &buf3, NULL, &alloc3);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "compact_file_sink_sptr_make" "', argument " "3"" of type '" "char const *""'");
   }
-  arg2 = reinterpret_cast< char * >(buf2);
-  if (obj2) {
-    ecode3 = SWIG_AsVal_bool(obj2, &val3);
-    if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "compact_file_sink_sptr_make" "', argument " "3"" of type '" "bool""'");
+  arg3 = reinterpret_cast< char * >(buf3);
+  if (obj3) {
+    ecode4 = SWIG_AsVal_bool(obj3, &val4);
+    if (!SWIG_IsOK(ecode4)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "compact_file_sink_sptr_make" "', argument " "4"" of type '" "bool""'");
     } 
-    arg3 = static_cast< bool >(val3);
+    arg4 = static_cast< bool >(val4);
   }
   {
     try {
-      result = (*arg1)->make((char const *)arg2,arg3);
+      result = (*arg1)->make(arg2,(char const *)arg3,arg4);
     }
     catch(std::exception &e) {
       SWIG_exception(SWIG_RuntimeError, e.what());
@@ -5854,10 +5893,10 @@ SWIGINTERN PyObject *_wrap_compact_file_sink_sptr_make(PyObject *SWIGUNUSEDPARM(
     
   }
   resultobj = SWIG_NewPointerObj((new gr::compacter::compact_file_sink::sptr(static_cast< const gr::compacter::compact_file_sink::sptr& >(result))), SWIGTYPE_p_boost__shared_ptrT_gr__compacter__compact_file_sink_t, SWIG_POINTER_OWN |  0 );
-  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
   return resultobj;
 fail:
-  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
   return NULL;
 }
 
@@ -9118,7 +9157,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"high_res_timer_now_perfmon", _wrap_high_res_timer_now_perfmon, METH_VARARGS, (char *)"high_res_timer_now_perfmon() -> gr::high_res_timer_type"},
 	 { (char *)"high_res_timer_tps", _wrap_high_res_timer_tps, METH_VARARGS, (char *)"high_res_timer_tps() -> gr::high_res_timer_type"},
 	 { (char *)"high_res_timer_epoch", _wrap_high_res_timer_epoch, METH_VARARGS, (char *)"high_res_timer_epoch() -> gr::high_res_timer_type"},
-	 { (char *)"compact_file_sink_make", (PyCFunction) _wrap_compact_file_sink_make, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_make(char const * filename, bool append=False) -> compact_file_sink_sptr"},
+	 { (char *)"compact_file_sink_make", (PyCFunction) _wrap_compact_file_sink_make, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_make(size_t itemsize, char const * filename, bool append=False) -> compact_file_sink_sptr"},
 	 { (char *)"compact_file_sink_set_sample_rate", (PyCFunction) _wrap_compact_file_sink_set_sample_rate, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_set_sample_rate(compact_file_sink self, uint64_t sample_rate)"},
 	 { (char *)"compact_file_sink_sample_rate", _wrap_compact_file_sink_sample_rate, METH_VARARGS, (char *)"compact_file_sink_sample_rate(compact_file_sink self) -> uint64_t"},
 	 { (char *)"compact_file_sink_set_fft_size", (PyCFunction) _wrap_compact_file_sink_set_fft_size, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_set_fft_size(compact_file_sink self, uint32_t fft_size)"},
@@ -9136,7 +9175,7 @@ static PyMethodDef SwigMethods[] = {
 		""},
 	 { (char *)"compact_file_sink_sptr___deref__", _wrap_compact_file_sink_sptr___deref__, METH_VARARGS, (char *)"compact_file_sink_sptr___deref__(compact_file_sink_sptr self) -> compact_file_sink"},
 	 { (char *)"delete_compact_file_sink_sptr", _wrap_delete_compact_file_sink_sptr, METH_VARARGS, (char *)"delete_compact_file_sink_sptr(compact_file_sink_sptr self)"},
-	 { (char *)"compact_file_sink_sptr_make", (PyCFunction) _wrap_compact_file_sink_sptr_make, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_make(compact_file_sink_sptr self, char const * filename, bool append=False) -> compact_file_sink_sptr"},
+	 { (char *)"compact_file_sink_sptr_make", (PyCFunction) _wrap_compact_file_sink_sptr_make, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_make(compact_file_sink_sptr self, size_t itemsize, char const * filename, bool append=False) -> compact_file_sink_sptr"},
 	 { (char *)"compact_file_sink_sptr_set_sample_rate", (PyCFunction) _wrap_compact_file_sink_sptr_set_sample_rate, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_set_sample_rate(compact_file_sink_sptr self, uint64_t sample_rate)"},
 	 { (char *)"compact_file_sink_sptr_sample_rate", _wrap_compact_file_sink_sptr_sample_rate, METH_VARARGS, (char *)"compact_file_sink_sptr_sample_rate(compact_file_sink_sptr self) -> uint64_t"},
 	 { (char *)"compact_file_sink_sptr_set_fft_size", (PyCFunction) _wrap_compact_file_sink_sptr_set_fft_size, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_set_fft_size(compact_file_sink_sptr self, uint32_t fft_size)"},

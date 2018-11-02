@@ -31,6 +31,7 @@ namespace gr {
     class compact_file_sink_impl : public compact_file_sink
     {
      private:
+      size_t d_itemsize = 1;
       double d_time_stamp = 13;    
       uint64_t d_sample_rate = 2000000;
       uint32_t d_fft_size = 1024;
@@ -44,7 +45,7 @@ namespace gr {
 	 void injectLoopDyn( boost::dynamic_bitset<>& bs1,const boost::dynamic_bitset<>& bs2,int start);
 
      public:
-      compact_file_sink_impl(const char *filename, bool append=false);
+      compact_file_sink_impl(size_t itemsize, const char *filename, bool append=false);
       ~compact_file_sink_impl();
 
 	 // Setters and getters

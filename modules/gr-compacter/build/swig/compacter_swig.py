@@ -121,9 +121,9 @@ class compact_file_sink(object):
         raise AttributeError("No constructor defined - class is abstract")
     __repr__ = _swig_repr
 
-    def make(filename, append=False):
-        """make(char const * filename, bool append=False) -> compact_file_sink_sptr"""
-        return _compacter_swig.compact_file_sink_make(filename, append)
+    def make(itemsize, filename, append=False):
+        """make(size_t itemsize, char const * filename, bool append=False) -> compact_file_sink_sptr"""
+        return _compacter_swig.compact_file_sink_make(itemsize, filename, append)
 
     make = staticmethod(make)
 
@@ -176,9 +176,9 @@ class compact_file_sink(object):
 compact_file_sink_swigregister = _compacter_swig.compact_file_sink_swigregister
 compact_file_sink_swigregister(compact_file_sink)
 
-def compact_file_sink_make(filename, append=False):
-    """compact_file_sink_make(char const * filename, bool append=False) -> compact_file_sink_sptr"""
-    return _compacter_swig.compact_file_sink_make(filename, append)
+def compact_file_sink_make(itemsize, filename, append=False):
+    """compact_file_sink_make(size_t itemsize, char const * filename, bool append=False) -> compact_file_sink_sptr"""
+    return _compacter_swig.compact_file_sink_make(itemsize, filename, append)
 
 class compact_file_sink_sptr(object):
     """Proxy of C++ boost::shared_ptr<(gr::compacter::compact_file_sink)> class."""
@@ -204,9 +204,9 @@ class compact_file_sink_sptr(object):
     __swig_destroy__ = _compacter_swig.delete_compact_file_sink_sptr
     __del__ = lambda self: None
 
-    def make(self, filename, append=False):
-        """make(compact_file_sink_sptr self, char const * filename, bool append=False) -> compact_file_sink_sptr"""
-        return _compacter_swig.compact_file_sink_sptr_make(self, filename, append)
+    def make(self, itemsize, filename, append=False):
+        """make(compact_file_sink_sptr self, size_t itemsize, char const * filename, bool append=False) -> compact_file_sink_sptr"""
+        return _compacter_swig.compact_file_sink_sptr_make(self, itemsize, filename, append)
 
 
     def set_sample_rate(self, sample_rate):

@@ -30,20 +30,21 @@ namespace gr {
   namespace compacter {
 
     compact_file_sink::sptr
-    compact_file_sink::make(const char *filename, bool append)
+    compact_file_sink::make(size_t itemsize, const char *filename, bool append)
     {
       return gnuradio::get_initial_sptr
-        (new compact_file_sink_impl(filename, append));
+        (new compact_file_sink_impl(itemsize, filename, append));
     }
 
     /*
      * The private constructor
      */
-    compact_file_sink_impl::compact_file_sink_impl(const char *filename, bool append)
+    compact_file_sink_impl::compact_file_sink_impl(size_t itemsize, const char *filename, bool append)
       : gr::sync_block("compact_file_sink",
-              gr::io_signature::make(1, 1, sizeof(float)),
+              gr::io_signature::make(1, 1, sizeof(float) * itemsize),
               gr::io_signature::make(0, 0, 0)),
-        file_sink_base(filename, true, append)
+        file_sink_base(filename, true, append),
+        d_itemsize(itemsize)
     {
       // Set variables - should be overwritten
       d_time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();   
@@ -131,6 +132,7 @@ namespace gr {
         gr_vector_const_void_star &input_items,
         gr_vector_void_star &output_items)
     {
+std::cout << "noutput_items: " << noutput_items << std::endl;
       const float *inbuf = (const float *) input_items[0];
       int  nwritten = 0;
 
@@ -147,9 +149,12 @@ namespace gr {
         meta_bytes += fwrite(&d_center_freq, sizeof(d_center_freq), 1, d_fp) * sizeof(d_center_freq);
 	 }
       // Create one long byte array, and write it to file
- 	 int compact_size = 0; // number of bytes in compact_buf
-      boost::shared_ptr<char[]> compact_buf = compact(inbuf, &compact_size, noutput_items);
-	 int count = fwrite(compact_buf.get(), compact_size, 1, d_fp);
+	 for (int i = 0; i < noutput_items; i++)
+	 {
+ 	   int compact_size = 0; // number of bytes in compact_buf
+        boost::shared_ptr<char[]> compact_buf = compact(&inbuf[i*d_itemsize], &compact_size, d_itemsize);
+	   int count = fwrite(compact_buf.get(), compact_size, 1, d_fp);
+	 }
       // Option to force writing to file (used in test functions)
 	 if (d_unbuffered)
 	   fflush(d_fp);

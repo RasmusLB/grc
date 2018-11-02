@@ -27,77 +27,12 @@ from bitstring import ConstBitStream
 from shutil import copyfile
 import numpy as np
 import tempfile
-import compacter_swig as compacter
 import struct
 import os
 
-class qa_compact_file_sink (gr_unittest.TestCase):
+class rtl_extractor ():
 
-    def setUp (self):
-        os.environ['GR_CONF_CONTROLPORT_ON'] = 'False'
-        self.tb = gr.top_block ()
-
-
-    def tearDown (self):
-        self.tb = None
-
-
-    def test_001_t (self):
-        print "Test_001: Check that unpacking format=1 works"
-        src_data = (-50, -99, -63, -90, -97, -77, -55, -89, -50, -20, -105, - 25) + (-87,) * 1011 + (-12,)
-        src_data = src_data + (-50, -99, -63, -90, -97, -77, -55, -89, -50, -20, -105, - 25) + (-87,) * 1011 + (-12,)
-        self.feed_data_t(src_data)
-        print "Test_001: Completed \n"
-
-
-    def test_002_t (self):
-        print "Test_002: Check that unpacking format=0 works"
-        src_data = (-50, -99, -63, -90, -97, -77, -55, -89, -50, -20, -105, - 25) + (-8,) * 1011 + (-12,)
-        src_data = src_data + (-50, -99, -63, -90, -97, -77, -55, -89, -50, -20, -105, - 25) + (-8,) * 1011 + (-12,)
-        self.feed_data_t(src_data)
-        print "Test_002: Completed \n"
-
-
-    def test_003_t (self):
-        print "Test_003: Check that unpacking a file without values works"
-        src_data = (-65, -99, -63, -90, -97, -77, -82, -89, -82, -86, -105, - 96) + (-87,) * 1011 + (-112,)
-        src_data = src_data + (-65, -99, -63, -90, -97, -77, -82, -89, -82, -86, -105, - 96) + (-87,) * 1011 + (-112,)
-        self.feed_data_t(src_data)
-        print "Test_003: Completed \n"
-
-
-    def feed_data_t (self,src_data):
-        # set up test
-        d_fft_size = 1024
-        d_sample_rate = 2000000
-        d_center_freq = 868300000
-        d_compact_threshold = -63
-        expected_result = self.expected_result(src_data,d_fft_size,d_compact_threshold)
-        # The file sink writes to a temporary file, which we can read from and verify the output
-        with tempfile.NamedTemporaryFile() as temp:
-            src = blocks.vector_source_f(src_data)
-            vect = blocks.stream_to_vector(4,d_fft_size)
-            dst = compacter.compact_file_sink(d_fft_size,temp.name,False)
-            dst.set_unbuffered(True) # Guarantees that data has been written to file, when we attempt to read
-            dst.set_sample_rate(d_sample_rate)
-            dst.set_fft_size(d_fft_size)
-            dst.set_center_freq(d_center_freq)
-            dst.set_compact_threshold(d_compact_threshold)
-            self.tb.connect(src,vect)
-            self.tb.connect(vect,dst)
-            self.tb.run ()
-            # check data
-            file_size = os.stat(temp.name).st_size
-            assert(file_size > 0)
-            time_stamp, sample_rate, fft_size, center_freq, dataDict = self.extract_file(temp.name)
-            self.assertEqual(d_sample_rate, sample_rate)
-            self.assertEqual(d_fft_size, fft_size)
-            self.assertEqual(d_center_freq, center_freq)
-            for vector_no in expected_result:
-                for i in range(len(expected_result[vector_no])):
-                    self.assertEqual(expected_result[vector_no][i],dataDict[vector_no][i])
-
-
+  
     def expected_result(self,src_data,fft_size,compact_threshold):
         compact_items = 0 # A compact item is a reading which falls within the threshold
         dataDict = {} 
@@ -204,4 +139,14 @@ class qa_compact_file_sink (gr_unittest.TestCase):
         return struct.unpack_from('Q',vector_no)[0]
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_compact_file_sink, "qa_compact_file_sink.xml")
+    extr = rtl_extractor()
+    time_stamp, sample_rate, fft_size, center_freq, dataDict = extr.extract_file("testfile.rtl")
+    print "time_stamp: " + str(time_stamp)
+    print "sample_rate: " + str(sample_rate)
+    print "fft_size: " + str(fft_size)
+    print "center_freq: " + str(center_freq)
+    for i in range (len(dataDict)):
+        if len(dataDict[i]) > 0:
+            print "dataDict[" + str(i) + "]: " + str(dataDict[i])
+
+

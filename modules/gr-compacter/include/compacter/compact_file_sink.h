@@ -55,7 +55,7 @@ namespace gr {
        * \param append if true, data is appended to the file instead of
        *        overwriting the initial content.
        */
-      static sptr make(const char *filename, bool append=false);
+      static sptr make(size_t itemsize,const char *filename, bool append=false);
 	 
 	 virtual void set_sample_rate(uint64_t sample_rate) = 0;//2000000;
 	 virtual uint64_t sample_rate() = 0;
