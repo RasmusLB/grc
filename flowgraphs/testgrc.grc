@@ -217,7 +217,7 @@
     </param>
     <param>
       <key>const</key>
-      <value>0.0009765625</value>
+      <value>(0.0009765625,)*1024</value>
     </param>
     <param>
       <key>affinity</key>
@@ -253,7 +253,7 @@
     </param>
     <param>
       <key>vlen</key>
-      <value>1</value>
+      <value>1024</value>
     </param>
   </block>
   <block>
@@ -323,7 +323,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -425,7 +425,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2096,7 +2096,7 @@
   </connection>
   <connection>
     <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
-    <sink_block_id>blocks_stream_to_vector_0</sink_block_id>
+    <sink_block_id>blocks_complex_to_mag_squared_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2119,7 +2119,7 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_vector_to_stream_0</source_block_id>
+    <source_block_id>fft_vxx_0</source_block_id>
     <sink_block_id>blocks_multiply_const_vxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>

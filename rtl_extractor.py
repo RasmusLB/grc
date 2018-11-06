@@ -25,6 +25,7 @@ from bitarray import bitarray
 from bitstring import BitArray
 from bitstring import ConstBitStream
 from shutil import copyfile
+import scipy.io as sio
 import numpy as np
 import tempfile
 import struct
@@ -98,7 +99,9 @@ class rtl_extractor ():
             dataDict = {}
             while vector_no != -1:
                 compact_length, compact_format = self.read_length_and_format(f)
-                dataDict[vector_no] = self.read_values(compact_format,compact_length,bin_size_bits,f)
+                tmp_list = self.read_values(compact_format,compact_length,bin_size_bits,f)
+                if (tmp_list != []):
+                    dataDict[vector_no] = tmp_list
                 vector_no = self.read_vector_no(f)
             return time_stamp, sample_rate, fft_size, center_freq, dataDict
         finally:
@@ -138,15 +141,26 @@ class rtl_extractor ():
             return -1
         return struct.unpack_from('Q',vector_no)[0]
 
+    def dict_to_mat(self,meta_data,dataDict,filename):
+        cell_array = np.zeros((len(dataDict)+1,2), dtype=np.object)
+        cell_array[0,0] = np.array(meta_data)
+        index = 1
+        for vector_no, measurements in dataDict.items():
+            cell_array[index,0] = vector_no
+            cell_array[index,1] = np.array(measurements)
+            index += 1
+        sio.savemat(filename, {'measured_spectrum':cell_array})
+        
+
 if __name__ == '__main__':
     extr = rtl_extractor()
     time_stamp, sample_rate, fft_size, center_freq, dataDict = extr.extract_file("testfile.rtl")
+    extr.dict_to_mat((time_stamp, sample_rate, fft_size, center_freq),dataDict,"testfile.mat")
     print "time_stamp: " + str(time_stamp)
     print "sample_rate: " + str(sample_rate)
     print "fft_size: " + str(fft_size)
     print "center_freq: " + str(center_freq)
-    for i in range (len(dataDict)):
-        if len(dataDict[i]) > 0:
-            print "dataDict[" + str(i) + "]: " + str(dataDict[i])
+    #for vector_no, measurements in dataDict.items():
+    #    print "dataDict[" + str(vector_no) + "]: " + str(measurements)
 
 

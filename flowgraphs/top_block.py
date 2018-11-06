@@ -4,7 +4,7 @@
 # GNU Radio Python Flow Graph
 # Title: Top Block
 # Author: rlb@es.aau.dk
-# Generated: Fri Nov  2 17:02:20 2018
+# Generated: Mon Nov  5 16:18:21 2018
 ##################################################
 
 from distutils.version import StrictVersion
@@ -112,23 +112,19 @@ class top_block(gr.top_block, Qt.QWidget):
 
         self.fft_vxx_0 = fft.fft_vcc(fft_size, True, (), True, 2)
         self.compacter_compact_file_sink_0 = compacter.compact_file_sink(1024,'/home/ns3/Documents/grc/testfile.rtl', False)
-        self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, 1024)
         self.blocks_stream_to_vector_1 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, fft_size)
-        self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, 1024)
         self.blocks_nlog10_ff_0 = blocks.nlog10_ff(10, 1024, 0)
-        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((0.0009765625, ))
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc(((0.0009765625,)*1024))
         self.blocks_complex_to_mag_squared_0 = blocks.complex_to_mag_squared(1024)
 
         ##################################################
         # Connections
         ##################################################
         self.connect((self.blocks_complex_to_mag_squared_0, 0), (self.blocks_nlog10_ff_0, 0))
-        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.blocks_stream_to_vector_0, 0))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.blocks_complex_to_mag_squared_0, 0))
         self.connect((self.blocks_nlog10_ff_0, 0), (self.compacter_compact_file_sink_0, 0))
-        self.connect((self.blocks_stream_to_vector_0, 0), (self.blocks_complex_to_mag_squared_0, 0))
         self.connect((self.blocks_stream_to_vector_1, 0), (self.fft_vxx_0, 0))
-        self.connect((self.blocks_vector_to_stream_0, 0), (self.blocks_multiply_const_vxx_0, 0))
-        self.connect((self.fft_vxx_0, 0), (self.blocks_vector_to_stream_0, 0))
+        self.connect((self.fft_vxx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.rtlsdr_source_0, 0), (self.blocks_stream_to_vector_1, 0))
         self.connect((self.rtlsdr_source_0, 0), (self.qtgui_sink_x_0, 0))
 
