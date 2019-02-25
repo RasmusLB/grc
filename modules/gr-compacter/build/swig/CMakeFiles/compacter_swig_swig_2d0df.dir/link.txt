@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG  -rdynamic CMakeFiles/compacter_swig_swig_2d0df.dir/compacter_swig_swig_2d0df.cpp.o  -o compacter_swig_swig_2d0df 
