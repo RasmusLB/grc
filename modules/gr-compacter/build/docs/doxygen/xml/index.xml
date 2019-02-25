@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.13">
+  <compound refid="classgr_1_1compacter_1_1compact__file__sink" kind="class"><name>gr::compacter::compact_file_sink</name>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink_1a750ea12411fda0e8400f5c5033f544f5" kind="typedef"><name>sptr</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink_1a4b27883b9636e9d605db44bc06b9af6f" kind="function"><name>make</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink_1ad728e197515647aa2d81889c9a4bf31a" kind="function"><name>set_sample_rate</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink_1a5114ce1052773db679246ad9e7880184" kind="function"><name>sample_rate</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink_1a702e367b45a8bccdb76007b6dac97b1c" kind="function"><name>set_fft_size</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink_1a30e9230d7c2e03b538242a1c05d5cc8b" kind="function"><name>fft_size</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink_1a085a3c3242c7a9ee7874816a972bcf43" kind="function"><name>set_center_freq</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink_1a54b3d3ba71e2bb56545914e475b2474e" kind="function"><name>center_freq</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink_1a672786c8e154505cf663dc35f0878f6b" kind="function"><name>set_compact_threshold</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink_1af608ccec78efa7bc9b1c982db54f96ac" kind="function"><name>compact_threshold</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink_1a964bd9197bc57a5d4d3e25d953b85cba" kind="function"><name>set_unbuffered</name></member>
+  </compound>
+  <compound refid="classgr_1_1compacter_1_1compact__file__sink__impl" kind="class"><name>gr::compacter::compact_file_sink_impl</name>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1a1a5920aa3f145f9d279fbd371aa3fd04" kind="variable"><name>d_itemsize</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1af0a2c7e665698ec5c6e736e90e378070" kind="variable"><name>d_time_stamp</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1a5fc21350ce3f3b556b3b1bcc97cd080e" kind="variable"><name>d_sample_rate</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1a527317b428d20c824b45245b229bfd56" kind="variable"><name>d_fft_size</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1abeafe0cfce7a4013501946257174c1a7" kind="variable"><name>d_center_freq</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1a47517a55a709a50e8185bd9dfc8200ca" kind="variable"><name>d_compact_threshold</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1aa2a07359d050890061bc442ffb6c92ca" kind="variable"><name>d_vector_no</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1a1e2469a2986afe2b7602ac8be3fd96aa" kind="variable"><name>d_bin_no_bit_size</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1a13a658d1749a8232b16c2b667a68c53a" kind="function"><name>compact</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1a6c3d9e8dedf2b4bf39a000ae97dcf5f0" kind="function"><name>injectLoopDyn</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1aba2949c577cc01b718373b808929e5e0" kind="function"><name>injectLoopDyn</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1a3d4597df6181a8e730b4aeeb252875b1" kind="function"><name>compact_file_sink_impl</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1a4c78e13a506d979329203b543a972ff2" kind="function"><name>~compact_file_sink_impl</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1a79a3be11836f7eeebb4bf8ddc620dc41" kind="function"><name>set_sample_rate</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1a8db54a920f5086e788ab34e3448d29b4" kind="function"><name>sample_rate</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1ad27911bd720c8f14cbbba14f69b3e4c5" kind="function"><name>set_fft_size</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1ad44c1eecfc913db347222a27bc9cba25" kind="function"><name>fft_size</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1a644a2776d4c559474c8a73cd55326ad5" kind="function"><name>set_center_freq</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1ae60c2e4a4bc702a1ebc99b27743ea252" kind="function"><name>center_freq</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1ab50c026cd83042ee77b94725788f57c8" kind="function"><name>set_compact_threshold</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1abb0a561519af1b9766eb3c87a6c39c8d" kind="function"><name>compact_threshold</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1ad6e298b38177a3425635fe6fdcb0c5ba" kind="function"><name>set_unbuffered</name></member>
+    <member refid="classgr_1_1compacter_1_1compact__file__sink__impl_1a736a90de39b54e46fe6bb76637b90fbf" kind="function"><name>work</name></member>
+  </compound>
+  <compound refid="namespacegr" kind="namespace"><name>gr</name>
+  </compound>
+  <compound refid="namespacegr_1_1compacter" kind="namespace"><name>gr::compacter</name>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
+  <compound refid="api_8h" kind="file"><name>api.h</name>
+    <member refid="api_8h_1a872292d0c39cd111d09561cd2d9075f8" kind="define"><name>COMPACTER_API</name></member>
+  </compound>
+  <compound refid="compact__file__sink_8h" kind="file"><name>compact_file_sink.h</name>
+  </compound>
+  <compound refid="compact__file__sink__impl_8h" kind="file"><name>compact_file_sink_impl.h</name>
+  </compound>
+  <compound refid="group__defs_8dox" kind="file"><name>group_defs.dox</name>
+  </compound>
+  <compound refid="main__page_8dox" kind="file"><name>main_page.dox</name>
+  </compound>
+  <compound refid="group__block" kind="group"><name>block</name>
+  </compound>
+  <compound refid="dir_ace196b1eca54cf72c40af7542a25fc4" kind="dir"><name>compacter</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_97aefd0d527b934f1d99a682da8fe6a9" kind="dir"><name>lib</name>
+  </compound>
+  <compound refid="indexpage" kind="page"><name>index</name>
+  </compound>
+</doxygenindex>

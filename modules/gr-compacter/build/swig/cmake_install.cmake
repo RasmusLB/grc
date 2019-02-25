@@ -1,4 +1,4 @@
-# Install script for directory: /home/ns3/Documents/grc/modules/gr-compacter/swig
+# Install script for directory: /home/rlb/grc/modules/gr-compacter/swig
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,12 +44,12 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/compacter/_compacter_swig.so"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/compacter" TYPE MODULE FILES "/home/ns3/Documents/grc/modules/gr-compacter/build/swig/_compacter_swig.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/compacter" TYPE MODULE FILES "/home/rlb/grc/modules/gr-compacter/build/swig/_compacter_swig.so")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/compacter/_compacter_swig.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/compacter/_compacter_swig.so")
     file(RPATH_CHANGE
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/compacter/_compacter_swig.so"
-         OLD_RPATH "/home/ns3/Documents/grc/modules/gr-compacter/build/lib:"
+         OLD_RPATH "/home/rlb/grc/modules/gr-compacter/build/lib:"
          NEW_RPATH "")
     if(CMAKE_INSTALL_DO_STRIP)
       execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/compacter/_compacter_swig.so")
@@ -58,20 +58,20 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/compacter" TYPE FILE FILES "/home/ns3/Documents/grc/modules/gr-compacter/build/swig/compacter_swig.py")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/compacter" TYPE FILE FILES "/home/rlb/grc/modules/gr-compacter/build/swig/compacter_swig.py")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/compacter" TYPE FILE FILES
-    "/home/ns3/Documents/grc/modules/gr-compacter/build/swig/compacter_swig.pyc"
-    "/home/ns3/Documents/grc/modules/gr-compacter/build/swig/compacter_swig.pyo"
+    "/home/rlb/grc/modules/gr-compacter/build/swig/compacter_swig.pyc"
+    "/home/rlb/grc/modules/gr-compacter/build/swig/compacter_swig.pyo"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/compacter/compacter/swig" TYPE FILE FILES
-    "/home/ns3/Documents/grc/modules/gr-compacter/swig/compacter_swig.i"
-    "/home/ns3/Documents/grc/modules/gr-compacter/build/swig/compacter_swig_doc.i"
+    "/home/rlb/grc/modules/gr-compacter/swig/compacter_swig.i"
+    "/home/rlb/grc/modules/gr-compacter/build/swig/compacter_swig_doc.i"
     )
 endif()
 

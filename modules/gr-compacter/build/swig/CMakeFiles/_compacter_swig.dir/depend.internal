@@ -4,7 +4,7 @@
 swig/CMakeFiles/_compacter_swig.dir/compacter_swigPYTHON_wrap.cxx.o
  ../include/compacter/api.h
  ../include/compacter/compact_file_sink.h
- /home/ns3/Documents/grc/modules/gr-compacter/build/swig/compacter_swigPYTHON_wrap.cxx
+ /home/rlb/grc/modules/gr-compacter/build/swig/compacter_swigPYTHON_wrap.cxx
  /usr/include/gnuradio/swig/gnuradio_swig_bug_workaround.h
  /usr/include/python2.7/Python.h
  /usr/include/python2.7/abstract.h

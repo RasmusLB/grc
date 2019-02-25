@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ns3/Documents/grc/modules/gr-compacter
+CMAKE_SOURCE_DIR = /home/rlb/grc/modules/gr-compacter
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ns3/Documents/grc/modules/gr-compacter/build
+CMAKE_BINARY_DIR = /home/rlb/grc/modules/gr-compacter/build
 
 # Utility rule file for compacter_swig_swig_doc.
 
@@ -56,7 +56,18 @@ include swig/CMakeFiles/compacter_swig_swig_doc.dir/progress.make
 swig/CMakeFiles/compacter_swig_swig_doc: swig/compacter_swig_doc.i
 
 
+swig/compacter_swig_doc.i: swig/compacter_swig_doc_swig_docs/xml/index.xml
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rlb/grc/modules/gr-compacter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating python docstrings for compacter_swig_doc"
+	cd /home/rlb/grc/modules/gr-compacter/docs/doxygen && /usr/bin/python2 -B /home/rlb/grc/modules/gr-compacter/docs/doxygen/swig_doc.py /home/rlb/grc/modules/gr-compacter/build/swig/compacter_swig_doc_swig_docs/xml /home/rlb/grc/modules/gr-compacter/build/swig/compacter_swig_doc.i
+
+swig/compacter_swig_doc_swig_docs/xml/index.xml: swig/_compacter_swig_doc_tag
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rlb/grc/modules/gr-compacter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating doxygen xml for compacter_swig_doc docs"
+	cd /home/rlb/grc/modules/gr-compacter/build/swig && ./_compacter_swig_doc_tag
+	cd /home/rlb/grc/modules/gr-compacter/build/swig && /usr/bin/doxygen /home/rlb/grc/modules/gr-compacter/build/swig/compacter_swig_doc_swig_docs/Doxyfile
+
 compacter_swig_swig_doc: swig/CMakeFiles/compacter_swig_swig_doc
+compacter_swig_swig_doc: swig/compacter_swig_doc.i
+compacter_swig_swig_doc: swig/compacter_swig_doc_swig_docs/xml/index.xml
 compacter_swig_swig_doc: swig/CMakeFiles/compacter_swig_swig_doc.dir/build.make
 
 .PHONY : compacter_swig_swig_doc
@@ -67,10 +78,10 @@ swig/CMakeFiles/compacter_swig_swig_doc.dir/build: compacter_swig_swig_doc
 .PHONY : swig/CMakeFiles/compacter_swig_swig_doc.dir/build
 
 swig/CMakeFiles/compacter_swig_swig_doc.dir/clean:
-	cd /home/ns3/Documents/grc/modules/gr-compacter/build/swig && $(CMAKE_COMMAND) -P CMakeFiles/compacter_swig_swig_doc.dir/cmake_clean.cmake
+	cd /home/rlb/grc/modules/gr-compacter/build/swig && $(CMAKE_COMMAND) -P CMakeFiles/compacter_swig_swig_doc.dir/cmake_clean.cmake
 .PHONY : swig/CMakeFiles/compacter_swig_swig_doc.dir/clean
 
 swig/CMakeFiles/compacter_swig_swig_doc.dir/depend:
-	cd /home/ns3/Documents/grc/modules/gr-compacter/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ns3/Documents/grc/modules/gr-compacter /home/ns3/Documents/grc/modules/gr-compacter/swig /home/ns3/Documents/grc/modules/gr-compacter/build /home/ns3/Documents/grc/modules/gr-compacter/build/swig /home/ns3/Documents/grc/modules/gr-compacter/build/swig/CMakeFiles/compacter_swig_swig_doc.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/rlb/grc/modules/gr-compacter/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/rlb/grc/modules/gr-compacter /home/rlb/grc/modules/gr-compacter/swig /home/rlb/grc/modules/gr-compacter/build /home/rlb/grc/modules/gr-compacter/build/swig /home/rlb/grc/modules/gr-compacter/build/swig/CMakeFiles/compacter_swig_swig_doc.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : swig/CMakeFiles/compacter_swig_swig_doc.dir/depend
 

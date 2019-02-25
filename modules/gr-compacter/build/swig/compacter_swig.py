@@ -113,7 +113,19 @@ def high_res_timer_epoch():
     """high_res_timer_epoch() -> gr::high_res_timer_type"""
     return _compacter_swig.high_res_timer_epoch()
 class compact_file_sink(object):
-    """Proxy of C++ gr::compacter::compact_file_sink class."""
+    """
+    The compactor is a module created for the purpose of logging power spectrum measurement to a file in a way that minimizes storage usage by exluding certain values.
+
+    Constructor Specific Documentation:
+
+    Return a shared_ptr to a new instance of compacter::compact_file_sink.
+
+    To avoid accidental use of raw pointers, compacter::compact_file_sink's constructor is in a private implementation class. compacter::compact_file_sink::make is the public interface for creating new instances.
+
+    Args:
+        filename : name of the file to open and write output to.
+        append : if true, data is appended to the file instead of overwriting the initial content.
+    """
 
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
 
@@ -122,23 +134,55 @@ class compact_file_sink(object):
     __repr__ = _swig_repr
 
     def make(itemsize, filename, append=False):
-        """make(size_t itemsize, char const * filename, bool append=False) -> compact_file_sink_sptr"""
+        """
+        make(size_t itemsize, char const * filename, bool append=False) -> compact_file_sink_sptr
+
+        The compactor is a module created for the purpose of logging power spectrum measurement to a file in a way that minimizes storage usage by exluding certain values.
+
+        Constructor Specific Documentation:
+
+        Return a shared_ptr to a new instance of compacter::compact_file_sink.
+
+        To avoid accidental use of raw pointers, compacter::compact_file_sink's constructor is in a private implementation class. compacter::compact_file_sink::make is the public interface for creating new instances.
+
+        Args:
+            filename : name of the file to open and write output to.
+            append : if true, data is appended to the file instead of overwriting the initial content.
+        """
         return _compacter_swig.compact_file_sink_make(itemsize, filename, append)
 
     make = staticmethod(make)
 
     def set_sample_rate(self, sample_rate):
-        """set_sample_rate(compact_file_sink self, uint64_t sample_rate)"""
+        """
+        set_sample_rate(compact_file_sink self, uint64_t sample_rate)
+
+        Set the sample rate.
+
+        The sample rate is saved in the file for future use in processing. The sample rate is written to the file before the first measurement is recorded. Therefore, the changing the sample rate will only have effect, when it is done before the file is created. The sample rate is not directly utilized by the module, but for processing purposes, the sample rate should reflect the actual sampling rate used in the system
+        """
         return _compacter_swig.compact_file_sink_set_sample_rate(self, sample_rate)
 
 
     def sample_rate(self):
-        """sample_rate(compact_file_sink self) -> uint64_t"""
+        """
+        sample_rate(compact_file_sink self) -> uint64_t
+
+        Returns the sample rate.
+
+        The sample rate
+        """
         return _compacter_swig.compact_file_sink_sample_rate(self)
 
 
     def set_fft_size(self, fft_size):
-        """set_fft_size(compact_file_sink self, uint32_t fft_size)"""
+        """
+        set_fft_size(compact_file_sink self, uint32_t fft_size)
+
+        Set the fft size.
+
+        The fft size is saved in the file for future use in processing and used for compacting. The format of the compacted file is dependent on the fft size, thus the value should only be changed before the file has been created.
+        """
         return _compacter_swig.compact_file_sink_set_fft_size(self, fft_size)
 
 
@@ -148,7 +192,13 @@ class compact_file_sink(object):
 
 
     def set_center_freq(self, center_freq):
-        """set_center_freq(compact_file_sink self, uint64_t center_freq)"""
+        """
+        set_center_freq(compact_file_sink self, uint64_t center_freq)
+
+        Set the center frequency.
+
+        The center frequency is saved in the file for future use in processing. The center frequency is written to the file before the first measurement is recorded. Therefore, changing the center frequency will only have effect, when it is done before the file is created. The center frequency is not directly utilized by the module, but for processing purposes, the center frequency should reflect the actual center frequency used in the system
+        """
         return _compacter_swig.compact_file_sink_set_center_freq(self, center_freq)
 
 
@@ -158,7 +208,13 @@ class compact_file_sink(object):
 
 
     def set_compact_threshold(self, compact_threshold):
-        """set_compact_threshold(compact_file_sink self, float compact_threshold)"""
+        """
+        set_compact_threshold(compact_file_sink self, float compact_threshold)
+
+        Set the filtering threshold.
+
+        The filtering threshold determines which power measurements should be stored. Any values below the threshold are discarded. This is intended to allow disregarding power measurements that fall below the noise floor, and therefore bears no relevant information. The value of the power being filtered is in dB, and dBm if the device is calibrated.
+        """
         return _compacter_swig.compact_file_sink_set_compact_threshold(self, compact_threshold)
 
 
@@ -168,7 +224,13 @@ class compact_file_sink(object):
 
 
     def set_unbuffered(self, unbuffered):
-        """set_unbuffered(compact_file_sink self, bool unbuffered)"""
+        """
+        set_unbuffered(compact_file_sink self, bool unbuffered)
+
+        Disallow buffereing of the value to file.
+
+        Since writing to a file has interaction the the parmanent storage on the device. The operating system will by default buffer data for effecient I/O operations Setting unbuffered, enforces the flushing of the file write buffer, after each input cycle.
+        """
         return _compacter_swig.compact_file_sink_set_unbuffered(self, unbuffered)
 
     __swig_destroy__ = _compacter_swig.delete_compact_file_sink
@@ -177,7 +239,21 @@ compact_file_sink_swigregister = _compacter_swig.compact_file_sink_swigregister
 compact_file_sink_swigregister(compact_file_sink)
 
 def compact_file_sink_make(itemsize, filename, append=False):
-    """compact_file_sink_make(size_t itemsize, char const * filename, bool append=False) -> compact_file_sink_sptr"""
+    """
+    compact_file_sink_make(size_t itemsize, char const * filename, bool append=False) -> compact_file_sink_sptr
+
+    The compactor is a module created for the purpose of logging power spectrum measurement to a file in a way that minimizes storage usage by exluding certain values.
+
+    Constructor Specific Documentation:
+
+    Return a shared_ptr to a new instance of compacter::compact_file_sink.
+
+    To avoid accidental use of raw pointers, compacter::compact_file_sink's constructor is in a private implementation class. compacter::compact_file_sink::make is the public interface for creating new instances.
+
+    Args:
+        filename : name of the file to open and write output to.
+        append : if true, data is appended to the file instead of overwriting the initial content.
+    """
     return _compacter_swig.compact_file_sink_make(itemsize, filename, append)
 
 class compact_file_sink_sptr(object):
@@ -205,22 +281,54 @@ class compact_file_sink_sptr(object):
     __del__ = lambda self: None
 
     def make(self, itemsize, filename, append=False):
-        """make(compact_file_sink_sptr self, size_t itemsize, char const * filename, bool append=False) -> compact_file_sink_sptr"""
+        """
+        make(compact_file_sink_sptr self, size_t itemsize, char const * filename, bool append=False) -> compact_file_sink_sptr
+
+        The compactor is a module created for the purpose of logging power spectrum measurement to a file in a way that minimizes storage usage by exluding certain values.
+
+        Constructor Specific Documentation:
+
+        Return a shared_ptr to a new instance of compacter::compact_file_sink.
+
+        To avoid accidental use of raw pointers, compacter::compact_file_sink's constructor is in a private implementation class. compacter::compact_file_sink::make is the public interface for creating new instances.
+
+        Args:
+            filename : name of the file to open and write output to.
+            append : if true, data is appended to the file instead of overwriting the initial content.
+        """
         return _compacter_swig.compact_file_sink_sptr_make(self, itemsize, filename, append)
 
 
     def set_sample_rate(self, sample_rate):
-        """set_sample_rate(compact_file_sink_sptr self, uint64_t sample_rate)"""
+        """
+        set_sample_rate(compact_file_sink_sptr self, uint64_t sample_rate)
+
+        Set the sample rate.
+
+        The sample rate is saved in the file for future use in processing. The sample rate is written to the file before the first measurement is recorded. Therefore, the changing the sample rate will only have effect, when it is done before the file is created. The sample rate is not directly utilized by the module, but for processing purposes, the sample rate should reflect the actual sampling rate used in the system
+        """
         return _compacter_swig.compact_file_sink_sptr_set_sample_rate(self, sample_rate)
 
 
     def sample_rate(self):
-        """sample_rate(compact_file_sink_sptr self) -> uint64_t"""
+        """
+        sample_rate(compact_file_sink_sptr self) -> uint64_t
+
+        Returns the sample rate.
+
+        The sample rate
+        """
         return _compacter_swig.compact_file_sink_sptr_sample_rate(self)
 
 
     def set_fft_size(self, fft_size):
-        """set_fft_size(compact_file_sink_sptr self, uint32_t fft_size)"""
+        """
+        set_fft_size(compact_file_sink_sptr self, uint32_t fft_size)
+
+        Set the fft size.
+
+        The fft size is saved in the file for future use in processing and used for compacting. The format of the compacted file is dependent on the fft size, thus the value should only be changed before the file has been created.
+        """
         return _compacter_swig.compact_file_sink_sptr_set_fft_size(self, fft_size)
 
 
@@ -230,7 +338,13 @@ class compact_file_sink_sptr(object):
 
 
     def set_center_freq(self, center_freq):
-        """set_center_freq(compact_file_sink_sptr self, uint64_t center_freq)"""
+        """
+        set_center_freq(compact_file_sink_sptr self, uint64_t center_freq)
+
+        Set the center frequency.
+
+        The center frequency is saved in the file for future use in processing. The center frequency is written to the file before the first measurement is recorded. Therefore, changing the center frequency will only have effect, when it is done before the file is created. The center frequency is not directly utilized by the module, but for processing purposes, the center frequency should reflect the actual center frequency used in the system
+        """
         return _compacter_swig.compact_file_sink_sptr_set_center_freq(self, center_freq)
 
 
@@ -240,7 +354,13 @@ class compact_file_sink_sptr(object):
 
 
     def set_compact_threshold(self, compact_threshold):
-        """set_compact_threshold(compact_file_sink_sptr self, float compact_threshold)"""
+        """
+        set_compact_threshold(compact_file_sink_sptr self, float compact_threshold)
+
+        Set the filtering threshold.
+
+        The filtering threshold determines which power measurements should be stored. Any values below the threshold are discarded. This is intended to allow disregarding power measurements that fall below the noise floor, and therefore bears no relevant information. The value of the power being filtered is in dB, and dBm if the device is calibrated.
+        """
         return _compacter_swig.compact_file_sink_sptr_set_compact_threshold(self, compact_threshold)
 
 
@@ -250,7 +370,13 @@ class compact_file_sink_sptr(object):
 
 
     def set_unbuffered(self, unbuffered):
-        """set_unbuffered(compact_file_sink_sptr self, bool unbuffered)"""
+        """
+        set_unbuffered(compact_file_sink_sptr self, bool unbuffered)
+
+        Disallow buffereing of the value to file.
+
+        Since writing to a file has interaction the the parmanent storage on the device. The operating system will by default buffer data for effecient I/O operations Setting unbuffered, enforces the flushing of the file write buffer, after each input cycle.
+        """
         return _compacter_swig.compact_file_sink_sptr_set_unbuffered(self, unbuffered)
 
 

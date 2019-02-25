@@ -6,7 +6,7 @@ CXX_FLAGS = -O3 -DNDEBUG -fPIC   -fvisibility=hidden
 
 CXX_DEFINES = -D_compacter_swig_EXPORTS
 
-CXX_INCLUDES = -I/home/ns3/Documents/grc/modules/gr-compacter/lib -I/home/ns3/Documents/grc/modules/gr-compacter/include -I/home/ns3/Documents/grc/modules/gr-compacter/build/lib -I/home/ns3/Documents/grc/modules/gr-compacter/build/include -I/home/ns3/Documents/grc/modules/gr-compacter/build/swig -I/home/ns3/Documents/grc/modules/gr-compacter/swig -I/usr/include/gnuradio/swig -I/usr/include/python2.7 
+CXX_INCLUDES = -I/home/rlb/grc/modules/gr-compacter/lib -I/home/rlb/grc/modules/gr-compacter/include -I/home/rlb/grc/modules/gr-compacter/build/lib -I/home/rlb/grc/modules/gr-compacter/build/include -I/home/rlb/grc/modules/gr-compacter/build/swig -I/home/rlb/grc/modules/gr-compacter/swig -I/usr/include/gnuradio/swig -I/usr/include/python2.7 
 
 # Custom flags: swig/CMakeFiles/_compacter_swig.dir/compacter_swigPYTHON_wrap.cxx.o_FLAGS = -Wno-unused-but-set-variable
 

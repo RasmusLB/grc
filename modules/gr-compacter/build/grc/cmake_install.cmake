@@ -1,4 +1,4 @@
-# Install script for directory: /home/ns3/Documents/grc/modules/gr-compacter/grc
+# Install script for directory: /home/rlb/grc/modules/gr-compacter/grc
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,6 +38,6 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/grc/blocks" TYPE FILE FILES "/home/ns3/Documents/grc/modules/gr-compacter/grc/compacter_compact_file_sink.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/grc/blocks" TYPE FILE FILES "/home/rlb/grc/modules/gr-compacter/grc/compacter_compact_file_sink.xml")
 endif()
 

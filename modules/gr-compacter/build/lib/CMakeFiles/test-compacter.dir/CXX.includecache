@@ -6,19 +6,19 @@
 
 #IncludeRegexTransform: 
 
-/home/ns3/Documents/grc/modules/gr-compacter/lib/qa_compacter.cc
+/home/rlb/grc/modules/gr-compacter/lib/qa_compacter.cc
 qa_compacter.h
-/home/ns3/Documents/grc/modules/gr-compacter/lib/qa_compacter.h
+/home/rlb/grc/modules/gr-compacter/lib/qa_compacter.h
 
-/home/ns3/Documents/grc/modules/gr-compacter/lib/qa_compacter.h
+/home/rlb/grc/modules/gr-compacter/lib/qa_compacter.h
 gnuradio/attributes.h
 -
 cppunit/TestSuite.h
 -
 
-/home/ns3/Documents/grc/modules/gr-compacter/lib/test_compacter.cc
+/home/rlb/grc/modules/gr-compacter/lib/test_compacter.cc
 config.h
-/home/ns3/Documents/grc/modules/gr-compacter/lib/config.h
+/home/rlb/grc/modules/gr-compacter/lib/config.h
 cppunit/TextTestRunner.h
 -
 cppunit/XmlOutputter.h
@@ -26,7 +26,7 @@ cppunit/XmlOutputter.h
 gnuradio/unittests.h
 -
 qa_compacter.h
-/home/ns3/Documents/grc/modules/gr-compacter/lib/qa_compacter.h
+/home/rlb/grc/modules/gr-compacter/lib/qa_compacter.h
 iostream
 -
 fstream

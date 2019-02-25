@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_ace196b1eca54cf72c40af7542a25fc4" kind="dir">
+    <compoundname>compacter</compoundname>
+    <innerfile refid="api_8h">api.h</innerfile>
+    <innerfile refid="compact__file__sink_8h">compact_file_sink.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/rlb/grc/modules/gr-compacter/include/compacter/"/>
+  </compounddef>
+</doxygen>

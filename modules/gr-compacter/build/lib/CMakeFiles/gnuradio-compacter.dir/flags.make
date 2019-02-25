@@ -6,5 +6,5 @@ CXX_FLAGS = -O3 -DNDEBUG -fPIC   -fvisibility=hidden
 
 CXX_DEFINES = -Dgnuradio_compacter_EXPORTS
 
-CXX_INCLUDES = -I/home/ns3/Documents/grc/modules/gr-compacter/lib -I/home/ns3/Documents/grc/modules/gr-compacter/include -I/home/ns3/Documents/grc/modules/gr-compacter/build/lib -I/home/ns3/Documents/grc/modules/gr-compacter/build/include -I/usr/include/gnuradio/blocks 
+CXX_INCLUDES = -I/home/rlb/grc/modules/gr-compacter/lib -I/home/rlb/grc/modules/gr-compacter/include -I/home/rlb/grc/modules/gr-compacter/build/lib -I/home/rlb/grc/modules/gr-compacter/build/include -I/usr/include/gnuradio/blocks 
 

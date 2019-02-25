@@ -1,4 +1,4 @@
-# Install script for directory: /home/ns3/Documents/grc/modules/gr-compacter/python
+# Install script for directory: /home/rlb/grc/modules/gr-compacter/python
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,13 +38,13 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/compacter" TYPE FILE FILES "/home/ns3/Documents/grc/modules/gr-compacter/python/__init__.py")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/compacter" TYPE FILE FILES "/home/rlb/grc/modules/gr-compacter/python/__init__.py")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/compacter" TYPE FILE FILES
-    "/home/ns3/Documents/grc/modules/gr-compacter/build/python/__init__.pyc"
-    "/home/ns3/Documents/grc/modules/gr-compacter/build/python/__init__.pyo"
+    "/home/rlb/grc/modules/gr-compacter/build/python/__init__.pyc"
+    "/home/rlb/grc/modules/gr-compacter/build/python/__init__.pyo"
     )
 endif()
 

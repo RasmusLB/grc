@@ -9157,16 +9157,66 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"high_res_timer_now_perfmon", _wrap_high_res_timer_now_perfmon, METH_VARARGS, (char *)"high_res_timer_now_perfmon() -> gr::high_res_timer_type"},
 	 { (char *)"high_res_timer_tps", _wrap_high_res_timer_tps, METH_VARARGS, (char *)"high_res_timer_tps() -> gr::high_res_timer_type"},
 	 { (char *)"high_res_timer_epoch", _wrap_high_res_timer_epoch, METH_VARARGS, (char *)"high_res_timer_epoch() -> gr::high_res_timer_type"},
-	 { (char *)"compact_file_sink_make", (PyCFunction) _wrap_compact_file_sink_make, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_make(size_t itemsize, char const * filename, bool append=False) -> compact_file_sink_sptr"},
-	 { (char *)"compact_file_sink_set_sample_rate", (PyCFunction) _wrap_compact_file_sink_set_sample_rate, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_set_sample_rate(compact_file_sink self, uint64_t sample_rate)"},
-	 { (char *)"compact_file_sink_sample_rate", _wrap_compact_file_sink_sample_rate, METH_VARARGS, (char *)"compact_file_sink_sample_rate(compact_file_sink self) -> uint64_t"},
-	 { (char *)"compact_file_sink_set_fft_size", (PyCFunction) _wrap_compact_file_sink_set_fft_size, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_set_fft_size(compact_file_sink self, uint32_t fft_size)"},
+	 { (char *)"compact_file_sink_make", (PyCFunction) _wrap_compact_file_sink_make, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"compact_file_sink_make(size_t itemsize, char const * filename, bool append=False) -> compact_file_sink_sptr\n"
+		"\n"
+		"The compactor is a module created for the purpose of logging power spectrum measurement to a file in a way that minimizes storage usage by exluding certain values.\n"
+		"\n"
+		"Constructor Specific Documentation:\n"
+		"\n"
+		"Return a shared_ptr to a new instance of compacter::compact_file_sink.\n"
+		"\n"
+		"To avoid accidental use of raw pointers, compacter::compact_file_sink's constructor is in a private implementation class. compacter::compact_file_sink::make is the public interface for creating new instances.\n"
+		"\n"
+		"Args:\n"
+		"    filename : name of the file to open and write output to.\n"
+		"    append : if true, data is appended to the file instead of overwriting the initial content.\n"
+		""},
+	 { (char *)"compact_file_sink_set_sample_rate", (PyCFunction) _wrap_compact_file_sink_set_sample_rate, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"compact_file_sink_set_sample_rate(compact_file_sink self, uint64_t sample_rate)\n"
+		"\n"
+		"Set the sample rate.\n"
+		"\n"
+		"The sample rate is saved in the file for future use in processing. The sample rate is written to the file before the first measurement is recorded. Therefore, the changing the sample rate will only have effect, when it is done before the file is created. The sample rate is not directly utilized by the module, but for processing purposes, the sample rate should reflect the actual sampling rate used in the system\n"
+		""},
+	 { (char *)"compact_file_sink_sample_rate", _wrap_compact_file_sink_sample_rate, METH_VARARGS, (char *)"\n"
+		"compact_file_sink_sample_rate(compact_file_sink self) -> uint64_t\n"
+		"\n"
+		"Returns the sample rate.\n"
+		"\n"
+		"The sample rate\n"
+		""},
+	 { (char *)"compact_file_sink_set_fft_size", (PyCFunction) _wrap_compact_file_sink_set_fft_size, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"compact_file_sink_set_fft_size(compact_file_sink self, uint32_t fft_size)\n"
+		"\n"
+		"Set the fft size.\n"
+		"\n"
+		"The fft size is saved in the file for future use in processing and used for compacting. The format of the compacted file is dependent on the fft size, thus the value should only be changed before the file has been created.\n"
+		""},
 	 { (char *)"compact_file_sink_fft_size", _wrap_compact_file_sink_fft_size, METH_VARARGS, (char *)"compact_file_sink_fft_size(compact_file_sink self) -> uint32_t"},
-	 { (char *)"compact_file_sink_set_center_freq", (PyCFunction) _wrap_compact_file_sink_set_center_freq, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_set_center_freq(compact_file_sink self, uint64_t center_freq)"},
+	 { (char *)"compact_file_sink_set_center_freq", (PyCFunction) _wrap_compact_file_sink_set_center_freq, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"compact_file_sink_set_center_freq(compact_file_sink self, uint64_t center_freq)\n"
+		"\n"
+		"Set the center frequency.\n"
+		"\n"
+		"The center frequency is saved in the file for future use in processing. The center frequency is written to the file before the first measurement is recorded. Therefore, changing the center frequency will only have effect, when it is done before the file is created. The center frequency is not directly utilized by the module, but for processing purposes, the center frequency should reflect the actual center frequency used in the system\n"
+		""},
 	 { (char *)"compact_file_sink_center_freq", _wrap_compact_file_sink_center_freq, METH_VARARGS, (char *)"compact_file_sink_center_freq(compact_file_sink self) -> uint64_t"},
-	 { (char *)"compact_file_sink_set_compact_threshold", (PyCFunction) _wrap_compact_file_sink_set_compact_threshold, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_set_compact_threshold(compact_file_sink self, float compact_threshold)"},
+	 { (char *)"compact_file_sink_set_compact_threshold", (PyCFunction) _wrap_compact_file_sink_set_compact_threshold, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"compact_file_sink_set_compact_threshold(compact_file_sink self, float compact_threshold)\n"
+		"\n"
+		"Set the filtering threshold.\n"
+		"\n"
+		"The filtering threshold determines which power measurements should be stored. Any values below the threshold are discarded. This is intended to allow disregarding power measurements that fall below the noise floor, and therefore bears no relevant information. The value of the power being filtered is in dB, and dBm if the device is calibrated.\n"
+		""},
 	 { (char *)"compact_file_sink_compact_threshold", _wrap_compact_file_sink_compact_threshold, METH_VARARGS, (char *)"compact_file_sink_compact_threshold(compact_file_sink self) -> float"},
-	 { (char *)"compact_file_sink_set_unbuffered", (PyCFunction) _wrap_compact_file_sink_set_unbuffered, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_set_unbuffered(compact_file_sink self, bool unbuffered)"},
+	 { (char *)"compact_file_sink_set_unbuffered", (PyCFunction) _wrap_compact_file_sink_set_unbuffered, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"compact_file_sink_set_unbuffered(compact_file_sink self, bool unbuffered)\n"
+		"\n"
+		"Disallow buffereing of the value to file.\n"
+		"\n"
+		"Since writing to a file has interaction the the parmanent storage on the device. The operating system will by default buffer data for effecient I/O operations Setting unbuffered, enforces the flushing of the file write buffer, after each input cycle.\n"
+		""},
 	 { (char *)"delete_compact_file_sink", _wrap_delete_compact_file_sink, METH_VARARGS, (char *)"delete_compact_file_sink(compact_file_sink self)"},
 	 { (char *)"compact_file_sink_swigregister", compact_file_sink_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_compact_file_sink_sptr", _wrap_new_compact_file_sink_sptr, METH_VARARGS, (char *)"\n"
@@ -9175,16 +9225,66 @@ static PyMethodDef SwigMethods[] = {
 		""},
 	 { (char *)"compact_file_sink_sptr___deref__", _wrap_compact_file_sink_sptr___deref__, METH_VARARGS, (char *)"compact_file_sink_sptr___deref__(compact_file_sink_sptr self) -> compact_file_sink"},
 	 { (char *)"delete_compact_file_sink_sptr", _wrap_delete_compact_file_sink_sptr, METH_VARARGS, (char *)"delete_compact_file_sink_sptr(compact_file_sink_sptr self)"},
-	 { (char *)"compact_file_sink_sptr_make", (PyCFunction) _wrap_compact_file_sink_sptr_make, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_make(compact_file_sink_sptr self, size_t itemsize, char const * filename, bool append=False) -> compact_file_sink_sptr"},
-	 { (char *)"compact_file_sink_sptr_set_sample_rate", (PyCFunction) _wrap_compact_file_sink_sptr_set_sample_rate, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_set_sample_rate(compact_file_sink_sptr self, uint64_t sample_rate)"},
-	 { (char *)"compact_file_sink_sptr_sample_rate", _wrap_compact_file_sink_sptr_sample_rate, METH_VARARGS, (char *)"compact_file_sink_sptr_sample_rate(compact_file_sink_sptr self) -> uint64_t"},
-	 { (char *)"compact_file_sink_sptr_set_fft_size", (PyCFunction) _wrap_compact_file_sink_sptr_set_fft_size, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_set_fft_size(compact_file_sink_sptr self, uint32_t fft_size)"},
+	 { (char *)"compact_file_sink_sptr_make", (PyCFunction) _wrap_compact_file_sink_sptr_make, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"compact_file_sink_sptr_make(compact_file_sink_sptr self, size_t itemsize, char const * filename, bool append=False) -> compact_file_sink_sptr\n"
+		"\n"
+		"The compactor is a module created for the purpose of logging power spectrum measurement to a file in a way that minimizes storage usage by exluding certain values.\n"
+		"\n"
+		"Constructor Specific Documentation:\n"
+		"\n"
+		"Return a shared_ptr to a new instance of compacter::compact_file_sink.\n"
+		"\n"
+		"To avoid accidental use of raw pointers, compacter::compact_file_sink's constructor is in a private implementation class. compacter::compact_file_sink::make is the public interface for creating new instances.\n"
+		"\n"
+		"Args:\n"
+		"    filename : name of the file to open and write output to.\n"
+		"    append : if true, data is appended to the file instead of overwriting the initial content.\n"
+		""},
+	 { (char *)"compact_file_sink_sptr_set_sample_rate", (PyCFunction) _wrap_compact_file_sink_sptr_set_sample_rate, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"compact_file_sink_sptr_set_sample_rate(compact_file_sink_sptr self, uint64_t sample_rate)\n"
+		"\n"
+		"Set the sample rate.\n"
+		"\n"
+		"The sample rate is saved in the file for future use in processing. The sample rate is written to the file before the first measurement is recorded. Therefore, the changing the sample rate will only have effect, when it is done before the file is created. The sample rate is not directly utilized by the module, but for processing purposes, the sample rate should reflect the actual sampling rate used in the system\n"
+		""},
+	 { (char *)"compact_file_sink_sptr_sample_rate", _wrap_compact_file_sink_sptr_sample_rate, METH_VARARGS, (char *)"\n"
+		"compact_file_sink_sptr_sample_rate(compact_file_sink_sptr self) -> uint64_t\n"
+		"\n"
+		"Returns the sample rate.\n"
+		"\n"
+		"The sample rate\n"
+		""},
+	 { (char *)"compact_file_sink_sptr_set_fft_size", (PyCFunction) _wrap_compact_file_sink_sptr_set_fft_size, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"compact_file_sink_sptr_set_fft_size(compact_file_sink_sptr self, uint32_t fft_size)\n"
+		"\n"
+		"Set the fft size.\n"
+		"\n"
+		"The fft size is saved in the file for future use in processing and used for compacting. The format of the compacted file is dependent on the fft size, thus the value should only be changed before the file has been created.\n"
+		""},
 	 { (char *)"compact_file_sink_sptr_fft_size", _wrap_compact_file_sink_sptr_fft_size, METH_VARARGS, (char *)"compact_file_sink_sptr_fft_size(compact_file_sink_sptr self) -> uint32_t"},
-	 { (char *)"compact_file_sink_sptr_set_center_freq", (PyCFunction) _wrap_compact_file_sink_sptr_set_center_freq, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_set_center_freq(compact_file_sink_sptr self, uint64_t center_freq)"},
+	 { (char *)"compact_file_sink_sptr_set_center_freq", (PyCFunction) _wrap_compact_file_sink_sptr_set_center_freq, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"compact_file_sink_sptr_set_center_freq(compact_file_sink_sptr self, uint64_t center_freq)\n"
+		"\n"
+		"Set the center frequency.\n"
+		"\n"
+		"The center frequency is saved in the file for future use in processing. The center frequency is written to the file before the first measurement is recorded. Therefore, changing the center frequency will only have effect, when it is done before the file is created. The center frequency is not directly utilized by the module, but for processing purposes, the center frequency should reflect the actual center frequency used in the system\n"
+		""},
 	 { (char *)"compact_file_sink_sptr_center_freq", _wrap_compact_file_sink_sptr_center_freq, METH_VARARGS, (char *)"compact_file_sink_sptr_center_freq(compact_file_sink_sptr self) -> uint64_t"},
-	 { (char *)"compact_file_sink_sptr_set_compact_threshold", (PyCFunction) _wrap_compact_file_sink_sptr_set_compact_threshold, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_set_compact_threshold(compact_file_sink_sptr self, float compact_threshold)"},
+	 { (char *)"compact_file_sink_sptr_set_compact_threshold", (PyCFunction) _wrap_compact_file_sink_sptr_set_compact_threshold, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"compact_file_sink_sptr_set_compact_threshold(compact_file_sink_sptr self, float compact_threshold)\n"
+		"\n"
+		"Set the filtering threshold.\n"
+		"\n"
+		"The filtering threshold determines which power measurements should be stored. Any values below the threshold are discarded. This is intended to allow disregarding power measurements that fall below the noise floor, and therefore bears no relevant information. The value of the power being filtered is in dB, and dBm if the device is calibrated.\n"
+		""},
 	 { (char *)"compact_file_sink_sptr_compact_threshold", _wrap_compact_file_sink_sptr_compact_threshold, METH_VARARGS, (char *)"compact_file_sink_sptr_compact_threshold(compact_file_sink_sptr self) -> float"},
-	 { (char *)"compact_file_sink_sptr_set_unbuffered", (PyCFunction) _wrap_compact_file_sink_sptr_set_unbuffered, METH_VARARGS | METH_KEYWORDS, (char *)"compact_file_sink_sptr_set_unbuffered(compact_file_sink_sptr self, bool unbuffered)"},
+	 { (char *)"compact_file_sink_sptr_set_unbuffered", (PyCFunction) _wrap_compact_file_sink_sptr_set_unbuffered, METH_VARARGS | METH_KEYWORDS, (char *)"\n"
+		"compact_file_sink_sptr_set_unbuffered(compact_file_sink_sptr self, bool unbuffered)\n"
+		"\n"
+		"Disallow buffereing of the value to file.\n"
+		"\n"
+		"Since writing to a file has interaction the the parmanent storage on the device. The operating system will by default buffer data for effecient I/O operations Setting unbuffered, enforces the flushing of the file write buffer, after each input cycle.\n"
+		""},
 	 { (char *)"compact_file_sink_sptr_history", _wrap_compact_file_sink_sptr_history, METH_VARARGS, (char *)"compact_file_sink_sptr_history(compact_file_sink_sptr self) -> unsigned int"},
 	 { (char *)"compact_file_sink_sptr_declare_sample_delay", _wrap_compact_file_sink_sptr_declare_sample_delay, METH_VARARGS, (char *)"\n"
 		"declare_sample_delay(int which, int delay)\n"

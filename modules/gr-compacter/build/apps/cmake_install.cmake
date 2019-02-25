@@ -1,4 +1,4 @@
-# Install script for directory: /home/ns3/Documents/grc/modules/gr-compacter/apps
+# Install script for directory: /home/rlb/grc/modules/gr-compacter/apps
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

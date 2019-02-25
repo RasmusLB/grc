@@ -20,17 +20,17 @@ gnuradio/blocks/file_sink_base.h
 gnuradio/sync_block.h
 -
 
-/home/ns3/Documents/grc/modules/gr-compacter/lib/compact_file_sink_impl.cc
+/home/rlb/grc/modules/gr-compacter/lib/compact_file_sink_impl.cc
 config.h
-/home/ns3/Documents/grc/modules/gr-compacter/lib/config.h
+/home/rlb/grc/modules/gr-compacter/lib/config.h
 compact_file_sink_impl.h
-/home/ns3/Documents/grc/modules/gr-compacter/lib/compact_file_sink_impl.h
+/home/rlb/grc/modules/gr-compacter/lib/compact_file_sink_impl.h
 gnuradio/io_signature.h
 -
 stdexcept
 -
 
-/home/ns3/Documents/grc/modules/gr-compacter/lib/compact_file_sink_impl.h
+/home/rlb/grc/modules/gr-compacter/lib/compact_file_sink_impl.h
 compacter/compact_file_sink.h
 -
 chrono

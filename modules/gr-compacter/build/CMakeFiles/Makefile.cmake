@@ -22,6 +22,9 @@ set(CMAKE_MAKEFILE_DEPENDS
   "../cmake/Modules/UseSWIG.cmake"
   "../cmake/cmake_uninstall.cmake.in"
   "../docs/CMakeLists.txt"
+  "../docs/doxygen/CMakeLists.txt"
+  "../docs/doxygen/Doxyfile.in"
+  "../docs/doxygen/Doxyfile.swig_doc.in"
   "../grc/CMakeLists.txt"
   "../include/compacter/CMakeLists.txt"
   "../lib/CMakeLists.txt"
@@ -82,6 +85,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "grc/CMakeFiles/CMakeDirectoryInformation.cmake"
   "apps/CMakeFiles/CMakeDirectoryInformation.cmake"
   "docs/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "docs/doxygen/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
@@ -89,11 +93,13 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/uninstall.dir/DependInfo.cmake"
   "lib/CMakeFiles/test-compacter.dir/DependInfo.cmake"
   "lib/CMakeFiles/gnuradio-compacter.dir/DependInfo.cmake"
+  "swig/CMakeFiles/compacter_swig_swig_doc.dir/DependInfo.cmake"
   "swig/CMakeFiles/_compacter_swig_swig_tag.dir/DependInfo.cmake"
   "swig/CMakeFiles/_compacter_swig.dir/DependInfo.cmake"
-  "swig/CMakeFiles/compacter_swig_swig_doc.dir/DependInfo.cmake"
+  "swig/CMakeFiles/_compacter_swig_doc_tag.dir/DependInfo.cmake"
   "swig/CMakeFiles/compacter_swig_swig_2d0df.dir/DependInfo.cmake"
-  "swig/CMakeFiles/pygen_swig_10a14.dir/DependInfo.cmake"
-  "python/CMakeFiles/pygen_python_9f920.dir/DependInfo.cmake"
+  "swig/CMakeFiles/pygen_swig_465d3.dir/DependInfo.cmake"
+  "python/CMakeFiles/pygen_python_7f016.dir/DependInfo.cmake"
   "apps/CMakeFiles/pygen_apps_9a6dd.dir/DependInfo.cmake"
+  "docs/doxygen/CMakeFiles/doxygen_target.dir/DependInfo.cmake"
   )

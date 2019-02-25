@@ -1,4 +1,4 @@
-# Install script for directory: /home/ns3/Documents/grc/modules/gr-compacter/lib
+# Install script for directory: /home/rlb/grc/modules/gr-compacter/lib
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,8 +50,8 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xcompacter_runtimex" OR NOT CMAKE_IN
     endif()
   endforeach()
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES
-    "/home/ns3/Documents/grc/modules/gr-compacter/build/lib/libgnuradio-compacter-1.0.0git.so.0.0.0"
-    "/home/ns3/Documents/grc/modules/gr-compacter/build/lib/libgnuradio-compacter-1.0.0git.so"
+    "/home/rlb/grc/modules/gr-compacter/build/lib/libgnuradio-compacter-1.0.0git.so.0.0.0"
+    "/home/rlb/grc/modules/gr-compacter/build/lib/libgnuradio-compacter-1.0.0git.so"
     )
   foreach(file
       "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-compacter-1.0.0git.so.0.0.0"
@@ -68,8 +68,8 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xcompacter_runtimex" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE FILE FILES
-    "/home/ns3/Documents/grc/modules/gr-compacter/build/lib/libgnuradio-compacter.so"
-    "/home/ns3/Documents/grc/modules/gr-compacter/build/lib/libgnuradio-compacter-1.0.0git.so.0"
+    "/home/rlb/grc/modules/gr-compacter/build/lib/libgnuradio-compacter.so"
+    "/home/rlb/grc/modules/gr-compacter/build/lib/libgnuradio-compacter-1.0.0git.so.0"
     )
 endif()
 

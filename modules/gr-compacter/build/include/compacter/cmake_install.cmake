@@ -1,4 +1,4 @@
-# Install script for directory: /home/ns3/Documents/grc/modules/gr-compacter/include/compacter
+# Install script for directory: /home/rlb/grc/modules/gr-compacter/include/compacter
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,8 +39,8 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/compacter" TYPE FILE FILES
-    "/home/ns3/Documents/grc/modules/gr-compacter/include/compacter/api.h"
-    "/home/ns3/Documents/grc/modules/gr-compacter/include/compacter/compact_file_sink.h"
+    "/home/rlb/grc/modules/gr-compacter/include/compacter/api.h"
+    "/home/rlb/grc/modules/gr-compacter/include/compacter/compact_file_sink.h"
     )
 endif()
 

@@ -20,7 +20,7 @@ gnuradio/blocks/file_sink_base.h
 gnuradio/sync_block.h
 -
 
-/home/ns3/Documents/grc/modules/gr-compacter/build/swig/compacter_swigPYTHON_wrap.cxx
+/home/rlb/grc/modules/gr-compacter/build/swig/compacter_swigPYTHON_wrap.cxx
 Python.h
 -
 Python.h
@@ -32,7 +32,7 @@ stdexcept
 string
 -
 gnuradio_swig_bug_workaround.h
-/home/ns3/Documents/grc/modules/gr-compacter/build/swig/gnuradio_swig_bug_workaround.h
+/home/rlb/grc/modules/gr-compacter/build/swig/gnuradio_swig_bug_workaround.h
 cstddef
 -
 typeinfo
@@ -68,7 +68,7 @@ gnuradio/high_res_timer.h
 limits.h
 -
 compacter/compact_file_sink.h
-/home/ns3/Documents/grc/modules/gr-compacter/build/swig/compacter/compact_file_sink.h
+/home/rlb/grc/modules/gr-compacter/build/swig/compacter/compact_file_sink.h
 float.h
 -
 math.h

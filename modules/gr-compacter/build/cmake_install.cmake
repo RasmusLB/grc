@@ -1,4 +1,4 @@
-# Install script for directory: /home/ns3/Documents/grc/modules/gr-compacter
+# Install script for directory: /home/rlb/grc/modules/gr-compacter
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,18 +38,18 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/compacter" TYPE FILE FILES "/home/ns3/Documents/grc/modules/gr-compacter/cmake/Modules/compacterConfig.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/compacter" TYPE FILE FILES "/home/rlb/grc/modules/gr-compacter/cmake/Modules/compacterConfig.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/ns3/Documents/grc/modules/gr-compacter/build/include/compacter/cmake_install.cmake")
-  include("/home/ns3/Documents/grc/modules/gr-compacter/build/lib/cmake_install.cmake")
-  include("/home/ns3/Documents/grc/modules/gr-compacter/build/swig/cmake_install.cmake")
-  include("/home/ns3/Documents/grc/modules/gr-compacter/build/python/cmake_install.cmake")
-  include("/home/ns3/Documents/grc/modules/gr-compacter/build/grc/cmake_install.cmake")
-  include("/home/ns3/Documents/grc/modules/gr-compacter/build/apps/cmake_install.cmake")
-  include("/home/ns3/Documents/grc/modules/gr-compacter/build/docs/cmake_install.cmake")
+  include("/home/rlb/grc/modules/gr-compacter/build/include/compacter/cmake_install.cmake")
+  include("/home/rlb/grc/modules/gr-compacter/build/lib/cmake_install.cmake")
+  include("/home/rlb/grc/modules/gr-compacter/build/swig/cmake_install.cmake")
+  include("/home/rlb/grc/modules/gr-compacter/build/python/cmake_install.cmake")
+  include("/home/rlb/grc/modules/gr-compacter/build/grc/cmake_install.cmake")
+  include("/home/rlb/grc/modules/gr-compacter/build/apps/cmake_install.cmake")
+  include("/home/rlb/grc/modules/gr-compacter/build/docs/cmake_install.cmake")
 
 endif()
 
@@ -61,5 +61,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/ns3/Documents/grc/modules/gr-compacter/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/rlb/grc/modules/gr-compacter/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
