@@ -132,7 +132,7 @@ namespace gr {
         gr_vector_const_void_star &input_items,
         gr_vector_void_star &output_items)
     {
-std::cout << "noutput_items: " << noutput_items << std::endl;
+//std::cout << "noutput_items: " << noutput_items << std::endl;
       const float *inbuf = (const float *) input_items[0];
       int  nwritten = 0;
 
